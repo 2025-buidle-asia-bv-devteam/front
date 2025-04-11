@@ -8,9 +8,11 @@ import ScentMarket from "./pages/ScentMarket";
 import ScentDetail from "./pages/ScentDetail";
 
 // 페이지 지연 로딩
-const Home = lazy(() => import("./pages/Home"));
-const ScentStudio = lazy(() => import("./pages/ScentStudio"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Home = lazy(() => import('./pages/Home'));
+const ScentMarket = lazy(() => import('./pages/ScentMarket'));
+const ScentStudio = lazy(() => import('./pages/ScentStudio'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const MyStudio = lazy(() => import('./pages/MyStudio'));
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -36,6 +38,7 @@ const App: React.FC = () => {
             <Route path="/scentstudio" element={<ScentStudio />} />
             <Route path="/marketplace/:id" element={<ScentDetail />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/mystudio" element={<MyStudio />} />
           </Routes>
         </Suspense>
       </MainContent>

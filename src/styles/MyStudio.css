@@ -1,0 +1,243 @@
+/* 향수 마이페이지 전체 테마 적용 - Deep Plum + Soft Amber 스타일 */
+
+body {
+    background-color: #1D1B22;
+    color: #F4F4F4;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .mystudio-container {
+    min-height: 100vh;
+    padding: 0 20px 40px;
+  }
+  
+  .studio-spacing {
+    height: 80px;
+  }
+  
+  .profile-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 48px;
+    margin-bottom: 48px;
+    padding: 32px 24px;
+    background-color: #2A232B;
+    border-radius: 12px;
+    border: 1px solid #3A2F36;
+  }
+  
+  .profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #C1B7C0;
+    margin-bottom: 16px;
+  }
+  
+  .profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .nickname {
+    color: #C2A878;
+    font-size: 26px;
+    margin: 0;
+  }
+  
+  .wallet {
+    color: #B8B8B8;
+    font-size: 14px;
+  }
+  
+  .summary-cards-inline {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .summary-card {
+    background-color: #332D34;
+    padding: 16px 20px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 100px;
+    border: 1px solid #444;
+  }
+  
+  .summary-card.highlight {
+    border-color: #C2A878;
+    background-color: #3C353D;
+    box-shadow: 0 0 8px rgba(194, 168, 120, 0.4);
+  }
+  
+  .summary-label {
+    font-size: 13px;
+    color: #BFAFC2;
+    margin-bottom: 4px;
+    display: block;
+  }
+  
+  .summary-value {
+    font-size: 20px;
+    color: #F4F4F4;
+    font-weight: bold;
+  }
+  
+  .tab-menu {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #3E3E3E;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+  }
+  
+  .tab-btn {
+    background: none;
+    border: none;
+    color: #AAA5AE;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .tab-btn.active {
+    color: #C2A878;
+    border-bottom: 2px solid #C2A878;
+    padding-bottom: 4px;
+  }
+  
+  /* 전체 향수 카드 레이아웃 */
+.perfume-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  
+  /* 향수 카드 */
+  .perfume-card {
+    background-color: #292429;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #3B343B;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: 0.3s;
+  }
+  
+  .perfume-card:hover {
+    box-shadow: 0 0 10px rgba(146, 132, 122, 0.5);
+  }
+  
+  /* 향수 이미지 */
+  .perfume-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+  
+  /* 이름 + 좋아요/가격 수평 정렬 */
+  .perfume-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .perfume-title {
+    font-size: 16px;
+    color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .perfume-meta {
+    font-size: 14px;
+    color: #bbb;
+  }
+  
+  /* 버튼 정렬: 오른쪽에 깔끔하게 정렬 */
+  .perfume-actions.grouped {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  /* 버튼 공통 스타일 */
+  .card-btn {
+    background-color: #3a2f36;
+    color: #f4f4f4;
+    padding: 6px 12px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .card-btn:hover {
+    background-color: #92847A;
+    color: black;
+  }
+  
+  /* Immutable 안내 문구 */
+  .immutable-text {
+    font-size: 12px;
+    color: #b3b3b3;
+    text-align: center;
+    margin-top: auto;
+  }
+  .history-table td button {
+    margin-left: 12px;
+  }
+
+  .settings-form {
+    max-width: 500px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: white;
+  }
+  
+  .settings-form label {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .settings-form input,
+  .settings-form textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .settings-form textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .save-btn {
+    background-color: #92847A;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .save-btn:hover {
+    background-color: #a69a8d;
+  }
