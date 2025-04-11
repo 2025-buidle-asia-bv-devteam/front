@@ -1,156 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { useWallet } from '../../context/WalletContext';
-
-const HeaderContainer = styled.header<{ isScrolled: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: ${props => props.isScrolled ? 'rgba(5, 5, 5, 0.9)' : 'transparent'};
-  backdrop-filter: ${props => props.isScrolled ? 'blur(10px)' : 'none'};
-  box-shadow: ${props => props.isScrolled ? '0 2px 10px rgba(0, 0, 0, 0.1)' : 'none'};
-`;
-
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  
-  &:hover {
-    text-shadow: 0 0 10px var(--primary);
-  }
-`;
-
-const NavContainer = styled.nav`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-`;
-
-const NavLink = styled(Link)<{ $active?: boolean }>`
-  color: ${props => props.$active ? 'var(--primary)' : '#fff'};
-  font-weight: ${props => props.$active ? 'bold' : 'normal'};
-  padding: 0.5rem 1rem;
-  position: relative;
-  transition: color 0.3s ease;
-  
-  &:hover {
-    color: var(--primary);
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -3px;
-    height: 2px;
-    background-color: var(--primary);
-    transform: scaleX(${props => props.$active ? 1 : 0});
-    transform-origin: center;
-    transition: transform 0.3s ease;
-  }
-  
-  &:hover::after {
-    transform: scaleX(1);
-  }
-`;
-
-const WalletButton = styled.button<{ isConnected: boolean }>`
-  background: ${props => props.isConnected ? 'var(--success)' : 'var(--gradient)'};
-  color: white;
-  border-radius: 30px;
-  padding: 0.5rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
-  
-  &:hover {
-    box-shadow: 0 0 15px ${props => props.isConnected ? 'var(--success)' : 'var(--primary)'};
-    transform: translateY(-2px);
-  }
-  
-  &:disabled {
-    background: #333;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-  }
-`;
-
-const WalletAddress = styled.span`
-  margin-left: 0.5rem;
-  font-size: 0.9rem;
-  opacity: 0.7;
-`;
+import { usePrivy } from '@privy-io/react-auth';
+import {
+  HeaderContainer,
+  Logo,
+  NavContainer,
+  NavLink,
+  WalletButton,
+  WalletAddress
+} from '../../styles/Header.styles';
 
 const Header: React.FC = () => {
-  const { account, connectWallet, disconnectWallet, isConnecting } = useWallet();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const { login, logout, authenticated, user } = usePrivy();
   const location = useLocation();
-  
-  const handleWalletClick = () => {
-    if (account) {
-      disconnectWallet();
-    } else {
-      connectWallet();
-    }
-  };
-  
-  // 스크롤 감지
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  // 주소 표시 형식 변환
+
   const formatAddress = (address: string) => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   };
-  
+
   return (
     <HeaderContainer isScrolled={isScrolled}>
       <Logo to="/">퍼퓸 AI</Logo>
-      
+
       <NavContainer>
         <NavLink to="/" $active={location.pathname === '/'}>홈</NavLink>
         <NavLink to="/chat" $active={location.pathname === '/chat'}>AI 대화</NavLink>
         <NavLink to="/gallery" $active={location.pathname === '/gallery'}>향수 갤러리</NavLink>
-        
-        <WalletButton 
-          isConnected={!!account} 
-          onClick={handleWalletClick} 
-          disabled={isConnecting}
-        >
-          {isConnecting ? '연결 중...' : (
-            account ? (
-              <>
-                연결됨 <WalletAddress>{formatAddress(account)}</WalletAddress>
-              </>
-            ) : '지갑 연결'
+
+        <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <WalletButton isConnected={authenticated} onClick={authenticated ? logout : login}>
+            {authenticated ? 'Logout' : 'LogIn'}
+          </WalletButton>
+
+          {authenticated && user?.wallet?.address && (
+            <WalletAddress>{formatAddress(user.wallet.address)}</WalletAddress>
           )}
-        </WalletButton>
+
+          <div
+            className="nav-icon-wrapper"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div className="nav-icon">
+              {isHovered ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#92283d" className="bi bi-x-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.614L8 8.708l-3.954 3.954 2.905 2.904c.58.58 1.519.58 2.098 0l2.905-2.904zm-8.614-.706L7.292 8 3.339 4.046.435 6.951c-.58.58-.58 1.519 0 2.098z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" className="bi bi-x-diamond" viewBox="0 0 16 16">
+                  <path d="M7.987 16a1.53 1.53 0 0 1-1.07-.448L.45 9.082a1.53 1.53 0 0 1 0-2.165L6.917.45a1.53 1.53 0 0 1 2.166 0l6.469 6.468A1.53 1.53 0 0 1 16 8.013a1.53 1.53 0 0 1-.448 1.07l-6.47 6.469A1.53 1.53 0 0 1 7.988 16zM7.639 1.17 4.766 4.044 8 7.278l3.234-3.234L8.361 1.17a.51.51 0 0 0-.722 0M8.722 8l3.234 3.234 2.873-2.873c.2-.2.2-.523 0-.722l-2.873-2.873zM8 8.722l-3.234 3.234 2.873 2.873c.2.2.523.2.722 0l2.873-2.873zM7.278 8 4.044 4.766 1.17 7.639a.51.51 0 0 0 0 .722l2.874 2.873z" />
+                </svg>
+              )}
+            </div>
+            {isHovered && (
+              <div className="nav-dropdown-menu">
+                <ul>
+                  <li><Link to="">About Us</Link></li>
+                  <li><Link to="">Contact</Link></li>
+                  <li><Link to="">Docs</Link></li>
+                  <li><Link to="">Login</Link></li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
       </NavContainer>
     </HeaderContainer>
   );
 };
 
-export default Header; 
+export default Header;

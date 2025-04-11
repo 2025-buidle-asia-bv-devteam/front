@@ -7,8 +7,8 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 
 // 페이지 지연 로딩
 const Home = lazy(() => import('./pages/Home'));
-const PerfumeChat = lazy(() => import('./pages/PerfumeChat'));
-const PerfumeGallery = lazy(() => import('./pages/PerfumeGallery'));
+// const PerfumeChat = lazy(() => import('./pages/PerfumeChat'));
+// const PerfumeGallery = lazy(() => import('./pages/PerfumeGallery'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const AppContainer = styled.div`
@@ -31,8 +31,8 @@ const App: React.FC = () => {
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/chat" element={<PerfumeChat />} />
-            <Route path="/gallery" element={<PerfumeGallery />} />
+            {/* <Route path="/chat" element={<PerfumeChat />} />
+            <Route path="/gallery" element={<PerfumeGallery />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
