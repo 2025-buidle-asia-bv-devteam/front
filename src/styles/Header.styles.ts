@@ -23,6 +23,8 @@ export const Logo = styled(Link)`
   color: var(--primary);
   display: flex;
   align-items: center;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.5cap;
 
   &:hover {
     text-shadow: 0 0 10px var(--primary);
@@ -35,7 +37,7 @@ export const NavContainer = styled.nav`
   gap: 2rem;
 `;
 
-export const NavLink = styled(Link)<{ $active?: boolean }>`
+export const NavLink = styled(Link) <{ $active?: boolean }>`
   color: ${({ $active }) => $active ? 'var(--primary)' : '#fff'};
   font-weight: ${({ $active }) => $active ? 'bold' : 'normal'};
   padding: 0.5rem 1rem;

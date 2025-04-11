@@ -1,8 +1,8 @@
 /* home.css */
 
 :root {
-  --gradient: linear-gradient(135deg, #8A2BE2, #4B0082);
-  --primary: #8A2BE2;
+  --gradient: linear-gradient(135deg, #92847A, #68605a);
+  --primary: #92847A;
 }
 
 .hero-section {
@@ -31,6 +31,7 @@
   background: #fff;
   -webkit-background-clip: text;
   background-clip: text;
+  font-family: 'Courier New', Courier, monospace;
   -webkit-text-fill-color: transparent;
 }
 
@@ -43,13 +44,13 @@
     font-size: 1.2rem;
   }
 
-  .button-container {
+  .hero-button-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .btn,
-  .btn-secondary {
+  .hero-chat-btn,
+  .hero-gallery-btn {
     width: 100%;
     text-align: center;
   }
@@ -57,7 +58,7 @@
 
 .hero-subtitle {
   font-size: 1.5rem;
-  color: #ddd;
+  color: #fff;
   margin-bottom: 2rem;
 }
 
@@ -70,13 +71,15 @@
   z-index: -1;
 }
 
-.button-container {
+.hero-button-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 1.5rem;
   margin-top: 2rem;
 }
 
-.btn {
+.hero-chat-btn {
   padding: 0.8rem 2rem;
   font-size: 1.2rem;
   font-weight: 600;
@@ -84,15 +87,15 @@
   transition: all 0.3s ease;
   background: var(--gradient);
   color: white;
-  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+  box-shadow: 0 5px 15px #92847A;
 }
 
-.btn:hover {
+.hero-chat-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
+  box-shadow: 0 8px 20px #68605a;
 }
 
-.btn-secondary {
+.hero-gallery-btn {
   padding: 0.8rem 2rem;
   font-size: 1.2rem;
   font-weight: 600;
@@ -102,8 +105,8 @@
   color: white;
 }
 
-.btn-secondary:hover {
-  background: rgba(138, 43, 226, 0.1);
+.hero-gallery-btn:hover {
+  background: rgba(146, 132, 122, 0.1);
   transform: translateY(-3px);
 }
 
@@ -118,7 +121,7 @@
 
 .particle {
   position: absolute;
-  background: rgba(138, 43, 226, 0.5);
+  background: #aba098;
   border-radius: 50%;
   top: -10%;
   animation: floatDown linear infinite;

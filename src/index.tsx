@@ -16,7 +16,7 @@ root.render(
     config={{
       loginMethods: ['email', 'wallet'],
       appearance: {
-        theme: 'light',
+        theme: 'dark',
         accentColor: '#8A2BE2',
         logo: '/hero-logo.png'
       },

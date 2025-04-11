@@ -9,11 +9,11 @@ const PerfumeBottle = () => (
   <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.4}>
     <mesh>
       <cylinderGeometry args={[0.5, 0.8, 2, 32]} />
-      <meshStandardMaterial color="#92847A" metalness={0.9} roughness={0.1} transparent opacity={0.8} />
+      <meshStandardMaterial color="#8A2BE2" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
     </mesh>
     <mesh position={[0, 1.2, 0]}>
       <sphereGeometry args={[0.3, 16, 16]} />
-      <meshStandardMaterial color="#F5F5F5" metalness={0.9} roughness={0.1} />
+      <meshStandardMaterial color="#FFFFFF" metalness={0.9} roughness={0.1} />
     </mesh>
   </Float>
 );
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
 
       <div className="canvas-container">
         <Canvas>
-          <color attach="background" args={['#000000']} />
+          <color attach="background" args={['#050505']} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} />
           <Suspense fallback={null}>
@@ -62,17 +62,17 @@ const Home: React.FC = () => {
       </div>
 
       <div className="hero-content">
-        <h1 className="hero-title">Scent Studio</h1>
+        <h1 className="hero-title">퍼퓸 AI - 당신의 향을 찾아드립니다</h1>
         <p className="hero-subtitle">
-          Lay Out Your Dream by Creating Own Scent
+          블록체인 기술로 구현된 향수 AI 에이전트 서비스. 당신만의 향을 찾고, NFT로 소유하세요.
         </p>
 
-        <div className="hero-button-container">
-          <Link to="/chat" className="hero-chat-btn">
-            Create Scent
+        <div className="button-container">
+          <Link to="/chat" className="btn">
+            AI와 대화하기
           </Link>
-          <Link to="/gallery" className="hero-gallery-btn">
-            Scent Studio
+          <Link to="/gallery" className="btn-secondary">
+            향수 갤러리 둘러보기
           </Link>
         </div>
       </div>
