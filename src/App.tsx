@@ -1,9 +1,11 @@
-import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import LoadingSpinner from './components/common/LoadingSpinner';
+import React, { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import ScentMarket from "./pages/ScentMarket";
+import ScentDetail from "./pages/ScentDetail";
 
 // 페이지 지연 로딩
 const Home = lazy(() => import('./pages/Home'));
@@ -34,6 +36,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/scentmarket" element={<ScentMarket />} />
             <Route path="/scentstudio" element={<ScentStudio />} />
+            <Route path="/marketplace/:id" element={<ScentDetail />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/mystudio" element={<MyStudio />} />
           </Routes>
@@ -44,4 +47,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App; 
+export default App;
