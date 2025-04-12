@@ -74,7 +74,7 @@ const SectionSubtitle = styled.p`
   }
 `;
 
-// motion과 Link를 결합한 컴포넌트 생성
+
 const MotionLink = motion(Link);
 
 const StyledButton = styled(MotionLink)`
@@ -130,7 +130,7 @@ const SplitGallery: React.FC = () => {
           <span>Stories</span>
           <span>Awaiting You</span>
         </SectionTitle>
-        <StyledButton to="/gallery" whileHover={{ y: -5 }} whileTap={{ y: 0 }}>
+        <StyledButton to="/scents/all" whileHover={{ y: -5 }} whileTap={{ y: 0 }}>
           Explore & Collaborate
         </StyledButton>
       </HalfSection>

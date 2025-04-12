@@ -207,28 +207,12 @@ const Home: React.FC = () => {
             <Link to="/scentstudio" className="hero-chat-btn">
               Create Scent
             </Link>
-            <Link to="/gallery" className="hero-gallery-btn">
-              Scent Studio
+            <Link to="/galleryzone" className="hero-gallery-btn">
+              Scent Gallery
             </Link>
           </div>
         </div>
       </section>
-
-      {/* <section className='hero-work-section'>
-        <h3>How  <span> THYMIAN </span>  works</h3>
-        
-        <div className='floating-words'>
-          <span>Connection</span>
-          <span>Story</span>
-          <span>Bloom</span>
-          <span>Emotion</span>
-          <span>Perfume</span>
-          <span>Network</span>
-          <span>Memory</span>
-          <span>Scent</span>
-          <span>Human</span>
-        </div>
-      </section> */}
 
       <HeroWorkSection />
 
