@@ -1,6 +1,6 @@
 # 🌟 FragranceForge AI
 
-![FragranceForge Banner](https://img.freepik.com/free-photo/perfume-bottles-flowers-arrangement_23-2149641322.jpg?w=1380&t=st=1715123456~exp=1715124056~hmac=7f9e1a3c5b12e72e781b92ee9c5e60db4f5a3d9c4b5aed39d452f67e44f38ab2)
+![FragranceForge Banner](https://github.com/user-attachments/assets/2c812955-e7f4-496f-9e81-bc1b2b516320)
 
 ## 🔮 Creating Your Unique Fragrance Identity
 
