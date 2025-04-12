@@ -4,36 +4,48 @@ import '../styles/ScentStadium.css';
 const mockData = [
   {
     rank: 1,
-    name: '향마스터 A',
+    name: 'Scent Master',
     address: '0x123...abcd',
-    scentName: '우디 앰버 스파이스',
-    image: '/images/profile1.png',
+    scentName: 'Woody amber spice',
+    image: '/amber_whisper.png',
   },
   {
     rank: 2,
-    name: '퍼퓸 디자이너 B',
+    name: 'Perfume designer',
     address: '0x456...efgh',
-    scentName: '시트러스 프레쉬',
-    image: '/images/profile2.png',
+    scentName: 'Citrus Fresh',
+    image: '/ocean_breeze.png',
   },
   {
     rank: 3,
-    name: '향수연금술사 C',
+    name: 'Perfume alchemist',
     address: '0x789...ijkl',
-    scentName: '플로럴 무스크',
-    image: '/images/profile3.png',
+    scentName: 'Floral Musk',
+    image: '/velvet_rose.png',
   },
   {
     rank: 4,
-    name: '향연구가 D',
+    name: 'Scent researcher',
     address: '0xabc...0001',
-    scentName: '그린 라이트',
+    scentName: 'Green Light',
   },
   {
     rank: 5,
-    name: '감정가 E',
+    name: 'Ancient Whale',
     address: '0xdef...0002',
-    scentName: '다크 초콜릿 레더',
+    scentName: 'Dark choco ladder',
+  },
+  {
+    rank: 6,
+    name: 'TOP Maxim',
+    address: '0xawx...0005',
+    scentName: 'Hack Purple',
+  },
+  {
+    rank: 7,
+    name: 'Buring Bowl',
+    address: '0xdpe...0012',
+    scentName: 'Ice Gaknok',
   },
 ];
 
@@ -43,7 +55,7 @@ const ScentStadium: React.FC = () => {
 
   return (
     <div className="stadium-container">
-      <h1 className="title">🏆 Scent Stadium</h1>
+      <h1 className="stadium-title">🏆 Scent Stadium</h1>
 
       <div className="podium">
         {podium.map((item) => (
@@ -60,10 +72,10 @@ const ScentStadium: React.FC = () => {
       <table className="ranking-table">
         <thead>
           <tr>
-            <th>순위</th>
-            <th>제작자</th>
-            <th>주소</th>
-            <th>향 이름</th>
+            <th>Rank</th>
+            <th>owner</th>
+            <th>address</th>
+            <th>type</th>
           </tr>
         </thead>
         <tbody>

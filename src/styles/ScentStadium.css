@@ -1,14 +1,15 @@
 .stadium-container {
   padding: 2rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   font-family: 'Arial', sans-serif;
 }
 
-.title {
+.stadium-title {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 2rem;
+  margin-top: 5rem;
 }
 
 .podium {
@@ -33,9 +34,8 @@
 }
 
 .profile-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
   border: 2px solid #ccc;
   object-fit: cover;
   margin-bottom: 0.3rem;
@@ -44,7 +44,7 @@
 .creator-name {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #333;
+  color: white;
   text-align: center;
 }
 
@@ -59,7 +59,6 @@
   border-radius: 6px 6px 0 0;
 }
 
-/* podium 높이 차이 */
 .rank-1 .step-box {
   height: 80px;
 }
@@ -86,4 +85,6 @@
 
 .ranking-table th {
   background-color: #f9f9f9;
+  color: #444;
+  font-weight: bold;
 }
