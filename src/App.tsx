@@ -6,6 +6,7 @@ import Footer from "./components/layout/Footer";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ScrollToTop from "./components/common/ScrollTop";
 
+
 const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
 const ScentDetail = lazy(() => import('./pages/ScentDetail'));
