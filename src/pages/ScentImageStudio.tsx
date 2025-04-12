@@ -329,23 +329,24 @@ const ScentImageStudio: React.FC = () => {
 
   const downloadImage = async () => {
     if (!generatedImage) return;
-  
+    
     try {
-      const response = await fetch(generatedImage);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "scent-image.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      // 새 창에서 이미지 열기
+      const newWindow = window.open(generatedImage, '_blank');
+      
+      // 사용자에게 안내 메시지 표시
+      if (newWindow) {
+        setTimeout(() => {
+          alert('The image has been opened in a new tab. Right-click on the image and select "Save Image As" to download it.');
+        }, 1000);
+      } else {
+        alert('Pop-up blocked. Please enable pop-ups and try again.');
+      }
     } catch (error) {
       console.error("이미지 다운로드 중 오류 발생:", error);
-      alert("이미지를 저장하는 데 실패했습니다. 다시 시도해주세요.");
+      alert("Failed to download the image. Please try again.");
     }
-  };  
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -363,6 +364,7 @@ const ScentImageStudio: React.FC = () => {
 
       console.log("백엔드 응답:", res.data);
 
+      // 프롬프트 저장
       if (res.data.prompt) {
         setPrompt(res.data.prompt);
         setMessages([...newMessages, { text: res.data.prompt, isUser: false }]);
@@ -370,6 +372,7 @@ const ScentImageStudio: React.FC = () => {
         setMessages([...newMessages, { text: "이미지가 생성되었습니다.", isUser: false }]);
       }
 
+      // 이미지 URL 저장
       if (res.data.image_url) {
         setGeneratedImage(res.data.image_url);
       }
