@@ -1,83 +1,111 @@
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Float } from '@react-three/drei';
-import { Link } from 'react-router-dom';
-import '../styles/Home.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-// 3D 모델 컴포넌트
-const PerfumeBottle = () => (
-  <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.4}>
-    <mesh>
-      <cylinderGeometry args={[0.5, 0.8, 2, 32]} />
-      <meshStandardMaterial color="#8A2BE2" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
-    </mesh>
-    <mesh position={[0, 1.2, 0]}>
-      <sphereGeometry args={[0.3, 16, 16]} />
-      <meshStandardMaterial color="#FFFFFF" metalness={0.9} roughness={0.1} />
-    </mesh>
-  </Float>
-);
+const ScentStudio: React.FC = () => {
+  const [inputMessage, setInputMessage] = useState('');
+  const [scentData, setScentData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-// 파티클 생성 함수
-const generateParticles = (amount: number) => {
-  return [...Array(amount)].map((_, i) => {
-    const size = Math.random() * 10 + 2;
-    const left = `${Math.random() * 100}%`;
-    const duration = Math.random() * 20 + 10;
+  const handleGenerate = async () => {
+    if (!inputMessage.trim()) {
+      setError('내용을 입력해주세요.');
+      return;
+    }
 
-    return (
-      <div
-        key={i}
-        className="particle"
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          left: left,
-          animationDuration: `${duration}s`,
-        }}
-      />
-    );
-  });
-};
+    setLoading(true);
+    setError(null);
+    setScentData(null);
 
-const Home: React.FC = () => {
+    try {
+      const response = await axios.post('http://localhost:3000/chat', {
+        message: inputMessage,
+      });
+      setScentData(response.data);
+    } catch (err: any) {
+      setError('서버 요청 중 오류가 발생했습니다.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <section className="hero-section">
-      <div className="particle-background">
-        {generateParticles(20)}
+    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🧪 Scent Studio</h1>
+
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <input
+          type="text"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          placeholder="예: 스모키하고 우디한 향을 원해"
+          style={{ flex: 1, padding: '0.5rem 1rem', fontSize: '1rem' }}
+        />
+        <button
+          onClick={handleGenerate}
+          style={{
+            padding: '0.5rem 1rem',
+            background: '#222',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '1rem',
+          }}
+        >
+          조향
+        </button>
       </div>
 
-      <div className="canvas-container">
-        <Canvas>
-          <color attach="background" args={['#050505']} />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
-          <Suspense fallback={null}>
-            <PerfumeBottle />
-            <Environment preset="city" />
-          </Suspense>
-          <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
-          <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={45} />
-        </Canvas>
-      </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {loading && <p>🔄 향 조합을 생성 중입니다...</p>}
 
-      <div className="hero-content">
-        <h1 className="hero-title">퍼퓸 AI - 당신의 향을 찾아드립니다</h1>
-        <p className="hero-subtitle">
-          블록체인 기술로 구현된 향수 AI 에이전트 서비스. 당신만의 향을 찾고, NFT로 소유하세요.
-        </p>
+      {scentData && (
+        <div style={{ marginTop: '2rem' }}>
+          <h2>✨ 향 조합 결과</h2>
 
-        <div className="button-container">
-          <Link to="/chat" className="btn">
-            AI와 대화하기
-          </Link>
-          <Link to="/gallery" className="btn-secondary">
-            향수 갤러리 둘러보기
-          </Link>
+          <section style={{ marginBottom: '1rem' }}>
+            <h3>🔹 Top Note</h3>
+            <p><strong>Name:</strong> {scentData.recipe.top_note.name}</p>
+            <p><strong>Ratio:</strong> {scentData.recipe.top_note.ratio}%</p>
+            <p><strong>Description:</strong> {scentData.recipe.top_note.description}</p>
+          </section>
+
+          <section style={{ marginBottom: '1rem' }}>
+            <h3>🔸 Middle Note</h3>
+            <p><strong>Name:</strong> {scentData.recipe.middle_note.name}</p>
+            <p><strong>Ratio:</strong> {scentData.recipe.middle_note.ratio}%</p>
+            <p><strong>Description:</strong> {scentData.recipe.middle_note.description}</p>
+          </section>
+
+          <section style={{ marginBottom: '1rem' }}>
+            <h3>🔻 Base Note</h3>
+            <p><strong>Name:</strong> {scentData.recipe.base_note.name}</p>
+            <p><strong>Ratio:</strong> {scentData.recipe.base_note.ratio}%</p>
+            <p><strong>Description:</strong> {scentData.recipe.base_note.description}</p>
+          </section>
+
+          <section style={{ marginBottom: '1rem' }}>
+            <h3>🧬 제조 가이드</h3>
+            <p><strong>Ethanol:</strong> {scentData.structured_data.manufacturing_guide.ethanol}%</p>
+            <p><strong>Water:</strong> {scentData.structured_data.manufacturing_guide.water}%</p>
+            <ol>
+              {scentData.structured_data.manufacturing_guide.steps.map(
+                (step: string, idx: number) => (
+                  <li key={idx}>{step}</li>
+                )
+              )}
+            </ol>
+          </section>
+
+          <section>
+            <h3>📝 설명</h3>
+            <p>{scentData.structured_data.description}</p>
+          </section>
         </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 };
 
-export default Home;
+export default ScentStudio;
