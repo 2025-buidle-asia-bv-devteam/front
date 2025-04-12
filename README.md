@@ -1,79 +1,73 @@
-# 퍼퓸 AI - 웹3 향수 AI 에이전트 서비스
+# 🌟 FragranceForge AI
 
-퍼퓸 AI는 블록체인 기술을 활용한 향수 AI 에이전트 서비스로, 사용자가 자신만의 향수를 찾고 NFT로 소유할 수 있는 플랫폼입니다.
+![FragranceForge Banner](https://img.freepik.com/free-photo/perfume-bottles-flowers-arrangement_23-2149641322.jpg?w=1380&t=st=1715123456~exp=1715124056~hmac=7f9e1a3c5b12e72e781b92ee9c5e60db4f5a3d9c4b5aed39d452f67e44f38ab2)
 
-## 주요 기능
+## 🔮 Creating Your Unique Fragrance Identity
 
-- **AI 에이전트 대화**: AI 에이전트와 대화하여 사용자의 취향에 맞는 향수를 추천받을 수 있습니다.
-- **향수 갤러리**: 다른 사용자가 생성한 향수들을 구경하고 구매할 수 있습니다.
-- **Web3 연동**: 메타마스크 지갑 연결을 통해 블록체인 상에서 향수를 NFT로 소유하고 거래할 수 있습니다.
-- **3D 시각화**: Three.js를 활용한 화려한 3D 시각 효과로 향수 병을 시각화합니다.
+**FragranceForge AI** is a revolutionary platform that empowers you to discover and own your personal signature scent through the power of AI and blockchain technology.
 
-## 기술 스택
+## ✨ Key Features
 
-- **Frontend**: React, TypeScript, Styled-Components
-- **3D 렌더링**: Three.js, React Three Fiber
-- **Web3 연동**: Ethers.js
-- **API 통신**: Axios
+- **AI-Powered Perfume Creation**: Our sophisticated AI agent analyzes your preferences and suggests unique fragrance recipes tailored just for you
+- **Blockchain IP Registration**: Register your personalized fragrance as intellectual property on the Story Protocol blockchain
+- **Ownership Certification**: Receive a digital certificate of ownership for your unique scent formula
+- **Visual Representation**: Generate beautiful imagery representing your custom fragrance
+- **Detailed Descriptions**: Obtain poetic descriptions that capture the essence of your scent
 
-## 설치 및 실행 방법
+## 🧪 How It Works
 
-### 필수 조건
+1. **Explore Preferences**: Interact with our AI agent to discover your scent preferences
+2. **Generate Recipe**: Receive a personalized fragrance recipe with precise ingredient proportions
+3. **Visualize**: Get a visual representation of your custom fragrance
+4. **Describe**: Review a detailed description capturing the mood and character of your scent
+5. **Register**: Secure your unique fragrance recipe as IP on the Story Protocol blockchain
+6. **Share & Celebrate**: Share your creation with friends or keep it as your exclusive signature
 
-- Node.js (v14 이상)
-- npm 또는 yarn
-- 메타마스크 지갑
+## 🔗 Technology Stack
 
-### 설치
+- **Frontend**: React.js with TypeScript
+- **AI Engine**: Advanced natural language processing for fragrance recipe generation
+- **Blockchain**: Story Protocol for secure IP registration and ownership verification
+- **Security**: End-to-end encryption for all user data
+
+## 🚀 Getting Started
 
 ```bash
-# 저장소 클론
-git clone https://github.com/your-username/perfume-ai.git
-cd perfume-ai
-
-# 의존성 설치
+# Install dependencies
 npm install
-# 또는
-yarn install
+
+# Run the development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-### 개발 모드 실행
+## 🛡️ IP Protection
 
-```bash
-npm start
-# 또는
-yarn start
-```
+Every fragrance created on our platform is registered as unique intellectual property on the Story Protocol blockchain, ensuring:
 
-## 프로젝트 구조
+- **Authenticity verification**
+- **Ownership proof**
+- **Recipe protection**
+- **Transparent attribution**
 
-```
-src/
-├── components/       # 재사용 가능한 컴포넌트
-│   ├── common/       # 공통 컴포넌트
-│   └── layout/       # 레이아웃 관련 컴포넌트
-├── context/          # 컨텍스트 API
-├── hooks/            # 커스텀 훅
-├── pages/            # 페이지 컴포넌트
-├── services/         # API 서비스
-├── utils/            # 유틸리티 함수
-└── assets/           # 이미지, 폰트 등 정적 파일
-```
+## 🌐 Vision
 
-## 기여 방법
+We believe everyone deserves a fragrance that is truly their own. By combining AI creativity with blockchain security, we're democratizing the world of perfumery and enabling a new era of personalized scent creation.
 
-1. 이 저장소를 포크합니다.
-2. 새로운 기능 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`).
-3. 변경 사항을 커밋합니다 (`git commit -m 'Add some amazing feature'`).
-4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`).
-5. Pull Request를 생성합니다.
+## 📸 Screenshots
 
-## 라이선스
+[Coming Soon]
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참조하세요.
+## 🤝 Contributing
 
-## 연락처
+We welcome contributions to the FragranceForge AI project! Please see our contributing guidelines for more information.
 
-프로젝트 관리자 - [@twitter_handle](https://twitter.com/twitter_handle) - email@example.com
+## 📄 License
 
-프로젝트 링크: [https://github.com/your-username/perfume-ai](https://github.com/your-username/perfume-ai) 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+*Craft your unique aromatic identity with FragranceForge AI - where technology meets artistry in the world of fragrance.* 
