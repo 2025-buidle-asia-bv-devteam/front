@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import firstImg from "../assets/image/first.png";
@@ -23,116 +23,225 @@ interface Perfume {
   image: string;
 }
 
+// 스크롤 프로그레스 바
+const ScrollProgress = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(to right, #92847a, #c2b5a9);
+  z-index: 1000;
+`;
+
 // 섹션 컴포넌트
 const Section = styled.section`
   width: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 8rem 2rem;
   background-color: #ffffff;
-  overflow: hidden;
+`;
+
+const IntroSection = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+`;
+
+const SliderSection = styled.div`
+  width: 100%;
+  min-height: 90vh;
+  padding: 2rem 0 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 1rem;
 `;
 
-const SectionTitle = styled.h1`
-  font-size: 3.5rem;
-  font-weight: 300;
+// 페이드인 애니메이션 변수
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, staggerChildren: 0.1 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const SectionTitle = styled(motion.h1)`
+  font-size: 4.5rem;
+  font-weight: 400;
   color: #000000;
-  letter-spacing: 3px;
-  margin-bottom: 8rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
   text-align: center;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
   @media (max-width: 768px) {
     font-size: 2.8rem;
-    margin-bottom: 5rem;
+    margin-bottom: 1rem;
   }
 `;
 
-const SubTitle = styled.h2`
-  font-size: 1.8rem;
+const SubTitle = styled(motion.h2)`
+  font-size: 2rem;
   font-weight: 300;
   color: #000000;
-  letter-spacing: 1px;
-  margin: 5rem 0 2rem;
+  letter-spacing: -0.01em;
   text-align: center;
-`;
-
-// 향기 카드 컴포넌트
-const PerfumeCardList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12rem;
-  margin-bottom: 8rem;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  max-width: 700px;
 
   @media (max-width: 768px) {
-    gap: 7rem;
-    margin-bottom: 5rem;
+    font-size: 1.5rem;
   }
 `;
 
-const PerfumeCard = styled.div<{ $reversed?: boolean }>`
+const ScrollPrompt = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  opacity: 0.5;
+  animation: fadeInOut 2s infinite;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    transform: translateY(5px);
+  }
+
+  @keyframes fadeInOut {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+`;
+
+const ScrollIcon = styled.div`
+  width: 30px;
+  height: 50px;
+  border: 2px solid #000;
+  border-radius: 25px;
+  position: relative;
+  margin-bottom: 0.5rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    background: #000;
+    margin-left: -2px;
+    border-radius: 2px;
+    animation: scrollDown 2s infinite;
+  }
+
+  @keyframes scrollDown {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(10px);
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`;
+
+const ScrollText = styled.p`
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+`;
+
+// 슬라이더 컨테이너
+const SliderContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 70vh;
+  margin-bottom: 1rem;
+`;
+
+const SlidesWrapper = styled(motion.div)`
+  display: flex;
+  width: 100%;
+  height: 100%;
+`;
+
+const Slide = styled(motion.div)`
+  flex: 0 0 100%;
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  padding: 3rem 1rem;
-  background: #ffffff;
-  margin: 0 auto;
-  direction: ${(props) => (props.$reversed ? "rtl" : "ltr")};
+  grid-template-columns: minmax(300px, 0.8fr) 1.2fr;
+  gap: 2rem;
+  padding: 1rem 5% 2rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    direction: ltr;
-    padding: 0;
+    gap: 2rem;
+    padding: 1rem 5% 2rem;
   }
 `;
 
-const PerfumeImageWrapper = styled.div`
-  padding: 2.5rem;
-  background: #ffffff;
+const PerfumeImageWrapper = styled(motion.div)`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem;
+`;
+
+const ImageContainer = styled(motion.div)`
+  width: 100%;
+  max-width: 90%;
+  aspect-ratio: 3/4; // 이미지 비율 유지
   border-radius: 4px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
   transition: all 0.5s ease;
-  direction: ltr;
-  position: relative;
-  max-width: 500px;
-  margin: 0 auto;
+  overflow: hidden;
+  margin: 0 auto; // 중앙 정렬
 
   &:hover {
     box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.15);
   }
-`;
 
-const ImageContainer = styled.div`
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  background-color: #ffffff;
-  border-radius: 2px;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.02);
-    pointer-events: none;
-    transition: background-color 0.5s ease;
-  }
-
-  &:hover::after {
-    background-color: rgba(0, 0, 0, 0);
+  @media (max-width: 768px) {
+    max-width: 85%;
+    aspect-ratio: 3/4;
   }
 `;
 
@@ -143,98 +252,138 @@ const StyledImage = styled.img`
   object-position: center center;
   display: block;
   transition: transform 1.5s ease;
-
-  ${ImageContainer}:hover & {
-    transform: scale(1.05);
-  }
 `;
 
 const PerfumeInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 2rem 0;
-  direction: ltr;
+  justify-content: flex-start;
+  padding: 1rem 2rem 1rem 0;
+  overflow-y: auto;
+  max-height: 70vh;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+    max-height: none;
+  }
 `;
 
-const PerfumeName = styled.h2`
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 2.8rem;
-  font-weight: 300;
+// 콘텐츠 영역 최소 높이 설정을 위한 컴포넌트
+const ContentArea = styled.div`
+  flex: 1;
+  min-height: 180px; /* 최소 높이 설정 */
+  display: flex;
+  flex-direction: column;
+`;
+
+const MetaArea = styled.div`
+  margin-top: auto;
+`;
+
+const PerfumeName = styled(motion.h2)`
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
   color: #000;
-  margin-bottom: 2rem;
-  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
   line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
 `;
 
-const PerfumeSubtitle = styled.h3`
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.3rem;
+const PerfumeSubtitle = styled(motion.h3)`
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.2rem;
   font-weight: 300;
-  font-style: italic;
   color: rgba(0, 0, 0, 0.7);
-  margin-bottom: 2.5rem;
-  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
   line-height: 1.5;
 `;
 
-const PerfumeStory = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.9;
+const PerfumeStory = styled(motion.p)`
+  font-size: 1.1rem;
+  line-height: 1.7;
   color: #333;
   opacity: 0.9;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  white-space: pre-wrap;
+
+  /* 문단 사이의 간격만 유지 */
+  br + br {
+    display: none;
+  }
+
+  /* 연속된 줄바꿈 하나만 표시 */
+  br {
+    line-height: 2;
+  }
 `;
 
-const PerfumePrice = styled.div`
+const PerfumePrice = styled(motion.div)`
   font-size: 1.4rem;
   font-weight: 400;
   color: #92847a;
   margin-bottom: 2rem;
 `;
 
-const TagsContainer = styled.div`
+const TagsContainer = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
 `;
 
-const Tag = styled.span`
-  padding: 0.7rem 1.4rem;
+const Tag = styled(motion.span)`
+  padding: 0.5rem 1rem;
   background: rgba(0, 0, 0, 0.05);
   color: #333;
   font-size: 0.9rem;
-  letter-spacing: 0.5px;
-`;
-
-const CreatorInfo = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 2.5rem;
-`;
-
-const CreatorLabel = styled.span`
-  font-size: 0.95rem;
-  color: #333;
-  opacity: 0.7;
-  margin-right: 1rem;
-`;
-
-const CreatorAddress = styled.span`
-  font-size: 0.95rem;
-  color: #333;
-  letter-spacing: 0.5px;
-  text-decoration: underline;
+  border-radius: 2rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
-    color: #92847a;
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 `;
 
-const Button = styled(Link)`
+const CreatorInfo = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const CreatorLabel = styled.span`
+  color: #333;
+  opacity: 0.7;
+  margin-right: 0.5rem;
+`;
+
+const CreatorAddress = styled.span`
+  font-family: monospace;
+  color: #92847a;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+`;
+
+const Button = styled(motion(Link))`
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -245,41 +394,175 @@ const Button = styled(Link)`
   color: #000;
   font-size: 1rem;
   letter-spacing: 1px;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   text-transform: uppercase;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
 
   &:hover {
     background: #000;
     color: #fff;
+  }
+
+  &:hover::after {
+    width: 100%;
   }
 `;
 
-const LoadMoreButton = styled.button`
+// 네비게이션 버튼
+const NavButton = styled.button<{
+  $direction: "left" | "right";
+  $disabled?: boolean;
+}>`
+  position: absolute;
+  top: 45%;
+  ${(props) => (props.$direction === "left" ? "left: 1rem;" : "right: 1rem;")}
+  transform: translateY(-50%);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: ${(props) =>
+    props.$disabled ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.1)"};
+  border: none;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 1.2rem 3rem;
+  justify-content: center;
+  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+  z-index: 10;
+  transition: all 0.3s ease;
+  opacity: ${(props) => (props.$disabled ? 0.5 : 1)};
+  
+  @media (max-width: 768px) {
+    top: auto;
+    bottom: -2rem;
+    ${(props) => (props.$direction === "left" ? "left: 30%;" : "right: 30%;")}
+  }
+
+  &:hover {
+    background: ${(props) =>
+      props.$disabled ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.2)"};
+    transform: ${(props) =>
+      props.$disabled ? "translateY(-50%)" : "translateY(-50%) scale(1.1)"};
+  }
+
+  &::before {
+    content: '';
+    width: 0.8rem;
+    height: 0.8rem;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    transform: ${(props) =>
+      props.$direction === "left" ? "rotate(135deg)" : "rotate(-45deg)"};
+    display: inline-block;
+    margin-${(props) =>
+      props.$direction === "left" ? "right" : "left"}: 0.2rem;
+  }
+`;
+
+// 슬라이드 인디케이터
+const SlideIndicators = styled.div`
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 2rem;
+`;
+
+const Indicator = styled(motion.div)<{ $active: boolean }>`
+  width: ${(props) => (props.$active ? "2rem" : "0.8rem")};
+  height: 0.8rem;
+  border-radius: 1rem;
+  background-color: ${(props) =>
+    props.$active ? "#000" : "rgba(0, 0, 0, 0.2)"};
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$active ? "#000" : "rgba(0, 0, 0, 0.4)"};
+    transform: scale(1.1);
+  }
+`;
+
+// More 버튼 스타일 수정
+const MoreScentButton = styled(motion(Link))`
+  padding: 1rem 3rem;
   background: transparent;
   border: 1px solid #000;
   color: #000;
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  transition: all 0.4s ease;
-  text-transform: uppercase;
-  margin: 0 auto;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
   cursor: pointer;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  margin: 4rem auto 0;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
 
   &:hover {
     background: #000;
     color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
+
+  &:hover::after {
+    width: 100%;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
 `;
 
 // 메인 ScentMarket 컴포넌트
 const ScentMarket: React.FC = () => {
   const [perfumes, setPerfumes] = useState<Perfume[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const { user } = usePrivy();
+  const slidesRef = useRef<HTMLDivElement>(null);
+  const sliderSectionRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  // 스크롤 프로그레스 추적
+  useEffect(() => {
+    const updateScroll = () => {
+      const totalHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", updateScroll);
+    return () => window.removeEventListener("scroll", updateScroll);
+  }, []);
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -287,42 +570,44 @@ const ScentMarket: React.FC = () => {
     const mockPerfumes: Perfume[] = [
       {
         id: "1",
-        name: "Trace of Her Midnight Aura",
+        name: "Her Aura Was Not Meant to Stay",
         story:
-          "She walked beneath the silver moon, wearing a scent that spoke of solitude, defiance, and desire. Not a fragrance to be shared, but to be remembered. Long after she vanished into the night, the scent lingered— haunting, bold, and unapologetically hers.",
+          "She left that night without closing the door.\nOnly her scent remained on the sheets. You may own this feeling—\nbut you'll never understand it. She lives only in my memory.",
         price: "0.35 ETH",
-        tags: ["Midnight", "Haunting", "Bold"],
+        tags: ["Midnight", "Haunting", "Bold", "Mysterious"],
         creator: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
         image: firstImg,
       },
       {
         id: "2",
-        name: "To My Memory by the Sea",
-        subtitle: "그날의 바람은, 튜베로즈처럼 잔잔하게 나를 안아줬어.",
+        name: "The Scent She Wore",
+        subtitle:
+          "And I remember her, not as my mother, but as a woman in love.",
         story:
-          "고요한 해변의 기억. 파도는 밀려오고 잔잔히 사라지듯, 네가 남긴 향이 아직도 맴돌아. 소금기 묻은 바람과 함께 피어나는 튜베로즈 향이 어린 시절의 추억을 끄집어내. 지금은 돌아갈 수 없는 시간, 하지만 향기만은 여전히 선명해.",
+          "She wore the same scent every day.\nI only saw my mother—never the woman she was.\nBut years later, wearing that perfume myself, I finally understood what she longed for.",
         price: "0.28 ETH",
-        tags: ["추억", "튜베로즈", "고요함", "맑음", "그리움"],
+        tags: ["Nostalgia", "Tuberose", "Maternal", "Longing"],
         creator: "0x831d35Cc6634C0532925a3b844Bc454e4438f22a",
         image: secondImg,
       },
       {
         id: "3",
         name: "To My X",
-        story: "I couldn't let you go, so I sealed you in a scent.",
+        story: "I couldn't let you go,\nso I sealed you in a scent.",
         price: "0.42 ETH",
-        tags: ["숲", "우디", "이끼", "그리움"],
+        tags: ["Forest", "Woody", "Moss", "Heartache"],
         creator: "0x453d35Cc6634C0532925a3b844Bc454e4438f86c",
         image: thirdImg,
       },
       {
         id: "4",
-        name: "To My Untamed Hours",
-        subtitle: "숲의 향, 낙엽 위의 발자국, 어딘가를 향했던 나의 발끝.",
+        name: "The Scent We Left in the Dirt",
+        subtitle:
+          "Before we grew up. Before we were husbands. We were wild. There was a time",
         story:
-          "길들여지지 않은 시간 속에서 만난 자유로운 영혼. 젖은 흙냄새와 숲의 그늘이 만들어낸 몽환적 낭만이 공기 중에 흩어진다. 머물지 않았기에 더 강렬했던 시간의 냄새. 아무도 가두지 못한 순간, 향기만이 그 흔적을 기억한다.",
+          "when all we needed was a Jeep, two tents,\nand a bottle that smelled like smoke and pine.\nWe weren't fathers then—just boys chasing the edge of freedom,",
         price: "0.38 ETH",
-        tags: ["자유", "흙", "숲", "낭만"],
+        tags: ["Freedom", "Earth", "Forest", "Untamed"],
         creator: "0x642d35Cc6634C0532925a3b844Bc454e4438f52d",
         image: fourthImg,
       },
@@ -331,6 +616,11 @@ const ScentMarket: React.FC = () => {
     setPerfumes(mockPerfumes);
   }, []);
 
+  // 스크롤 핸들러 - 슬라이더 섹션으로 스크롤
+  const scrollToSlider = () => {
+    sliderSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   // 지갑 주소 포맷
   const formatAddress = (address: string) => {
     return `${address.substring(0, 6)}...${address.substring(
@@ -338,9 +628,28 @@ const ScentMarket: React.FC = () => {
     )}`;
   };
 
-  const handleLoadMore = () => {
-    // 실제로는 여기서 다음 페이지 로드 로직이 들어갈 것
-    console.log("Load more perfumes");
+  // 슬라이드 변경 핸들러
+  const handlePrevSlide = () => {
+    if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
+
+  const handleNextSlide = () => {
+    if (currentSlide < perfumes.length - 1) {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
+  const handleIndicatorClick = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // 태그 클릭 핸들러
+  const handleTagClick = (tag: string) => {
+    setActiveTag(activeTag === tag ? null : tag);
+    // 여기에 해당 태그의 필터링 로직 추가 가능
+    console.log(`Selected tag: ${tag}`);
   };
 
   if (perfumes.length === 0) {
@@ -349,55 +658,185 @@ const ScentMarket: React.FC = () => {
 
   return (
     <Section>
-      <Container>
-        <SectionTitle>SCENTED GALLERY</SectionTitle>
-        <SubTitle>작품처럼 감상하는 향기의 세계</SubTitle>
+      <ScrollProgress style={{ width: `${scrollProgress}%` }} />
 
-        <PerfumeCardList>
-          {perfumes.map((perfume, index) => (
-            <PerfumeCard key={perfume.id} $reversed={index % 2 !== 0}>
-              <PerfumeImageWrapper>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <ImageContainer>
-                    <StyledImage src={perfume.image} alt={perfume.name} />
-                  </ImageContainer>
-                </motion.div>
-              </PerfumeImageWrapper>
+      <IntroSection>
+        <motion.div initial="hidden" animate="visible" variants={fadeIn}>
+          <SectionTitle variants={item}>SCENTED STORIES</SectionTitle>
+          <SubTitle variants={item}>Own the scent, own the story.</SubTitle>
+          <ScrollPrompt
+            onClick={scrollToSlider}
+            variants={item}
+            whileHover={{ y: 5, opacity: 1 }}
+          >
+            <ScrollIcon />
+            <ScrollText>Scroll to explore</ScrollText>
+          </ScrollPrompt>
+        </motion.div>
+      </IntroSection>
 
-              <PerfumeInfo>
-                <PerfumeName>{perfume.name}</PerfumeName>
-                {perfume.subtitle && (
-                  <PerfumeSubtitle>{perfume.subtitle}</PerfumeSubtitle>
-                )}
-                <PerfumeStory>{perfume.story}</PerfumeStory>
-                <PerfumePrice>{perfume.price}</PerfumePrice>
+      <SliderSection ref={sliderSectionRef}>
+        <Container>
+          <SliderContainer>
+            <SlidesWrapper
+              ref={slidesRef}
+              animate={{ x: `-${currentSlide * 100}%` }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              {perfumes.map((perfume) => (
+                <Slide key={perfume.id}>
+                  <PerfumeImageWrapper
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <ImageContainer
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <StyledImage src={perfume.image} alt={perfume.name} />
+                    </ImageContainer>
+                  </PerfumeImageWrapper>
 
-                <TagsContainer>
-                  {perfume.tags.map((tag, idx) => (
-                    <Tag key={idx}>#{tag}</Tag>
-                  ))}
-                </TagsContainer>
+                  <PerfumeInfo>
+                    <ContentArea>
+                      <PerfumeName
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {perfume.name}
+                      </PerfumeName>
 
-                <CreatorInfo>
-                  <CreatorLabel>Creator:</CreatorLabel>
-                  <CreatorAddress>
-                    {user?.wallet?.address
-                      ? formatAddress(user.wallet.address)
-                      : formatAddress(perfume.creator)}
-                  </CreatorAddress>
-                </CreatorInfo>
+                      {perfume.subtitle && (
+                        <PerfumeSubtitle
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.1 }}
+                        >
+                          {perfume.subtitle}
+                        </PerfumeSubtitle>
+                      )}
 
-                <Button to={`/marketplace/${perfume.id}`}>구매하기</Button>
-              </PerfumeInfo>
-            </PerfumeCard>
-          ))}
-        </PerfumeCardList>
+                      <PerfumeStory
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                      >
+                        {perfume.story}
+                      </PerfumeStory>
+                    </ContentArea>
 
-        <LoadMoreButton onClick={handleLoadMore}>더 보기</LoadMoreButton>
-      </Container>
+                    <MetaArea>
+                      <PerfumePrice
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                      >
+                        {perfume.price}
+                      </PerfumePrice>
+
+                      <TagsContainer
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                      >
+                        {perfume.tags.map((tag, idx) => (
+                          <Tag
+                            key={idx}
+                            onClick={() => handleTagClick(tag)}
+                            whileHover={{
+                              y: -3,
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                            }}
+                            whileTap={{ y: 0 }}
+                            style={{
+                              backgroundColor:
+                                activeTag === tag
+                                  ? "rgba(0, 0, 0, 0.2)"
+                                  : "rgba(0, 0, 0, 0.05)",
+                            }}
+                          >
+                            #{tag}
+                          </Tag>
+                        ))}
+                      </TagsContainer>
+
+                      <CreatorInfo
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                      >
+                        <CreatorLabel>Creator:</CreatorLabel>
+                        <CreatorAddress>
+                          {user?.wallet?.address
+                            ? formatAddress(user.wallet.address)
+                            : formatAddress(perfume.creator)}
+                        </CreatorAddress>
+                      </CreatorInfo>
+
+                      <Button
+                        to={`/marketplace/${perfume.id}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        whileHover={{
+                          backgroundColor: "#000",
+                          color: "#fff",
+                          y: -5,
+                          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+                        }}
+                      >
+                        Collect This Scent
+                      </Button>
+                    </MetaArea>
+                  </PerfumeInfo>
+                </Slide>
+              ))}
+            </SlidesWrapper>
+
+            <NavButton
+              $direction="left"
+              onClick={handlePrevSlide}
+              disabled={currentSlide === 0}
+              $disabled={currentSlide === 0}
+            />
+            <NavButton
+              $direction="right"
+              onClick={handleNextSlide}
+              disabled={currentSlide === perfumes.length - 1}
+              $disabled={currentSlide === perfumes.length - 1}
+            />
+          </SliderContainer>
+
+          <SlideIndicators>
+            {perfumes.map((_, index) => (
+              <Indicator
+                key={index}
+                $active={currentSlide === index}
+                onClick={() => handleIndicatorClick(index)}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            ))}
+          </SlideIndicators>
+
+          <ButtonContainer>
+            <MoreScentButton
+              to="/scents/all"
+              whileHover={{
+                y: -5,
+                backgroundColor: "#000",
+                color: "#fff",
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+              }}
+              whileTap={{ y: 0 }}
+            >
+              MORE SCENTS
+            </MoreScentButton>
+          </ButtonContainer>
+        </Container>
+      </SliderSection>
     </Section>
   );
 };

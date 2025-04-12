@@ -10,7 +10,10 @@ import fourthImg from "../assets/image/fourth.png";
 import f11Img from "../assets/image/f11.png";
 import f22Img from "../assets/image/f22.png";
 import f33Img from "../assets/image/f33.png";
-
+import diffuserImg from "../assets/image/diffuser.png";
+import soapImg from "../assets/image/soap.png";
+import roomsprayImg from "../assets/image/roomspray.png";
+import candleImg from "../assets/image/candle.png";
 
 // 향기 데이터 타입 정의
 interface Perfume {
@@ -46,7 +49,7 @@ const Section = styled.section<{ $bgColor?: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 8rem 2rem;
+  padding: 6rem 2rem;
   background-color: ${(props) => props.$bgColor || "#ffffff"};
   overflow: hidden;
   transition: background-color 0.5s ease;
@@ -64,12 +67,13 @@ const Container = styled.div`
 `;
 
 const SectionTitle = styled.h1<{ $dark?: boolean }>`
-  font-size: 3.5rem;
-  font-weight: 300;
+  font-size: 4rem;
+  font-weight: 400;
   color: ${(props) => (props.$dark ? "#ffffff" : "#000000")};
-  letter-spacing: 3px;
+  letter-spacing: -0.03em;
   margin-bottom: 8rem;
   text-align: center;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
   @media (max-width: 768px) {
     font-size: 2.8rem;
@@ -156,11 +160,12 @@ const ImageTitle = styled.h2`
   left: 0;
   width: 100%;
   text-align: center;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 2.5rem;
   font-weight: 400;
   color: #000;
   z-index: 2;
+  letter-spacing: -0.03em;
 `;
 
 const ImageSubtitle = styled.p`
@@ -169,12 +174,12 @@ const ImageSubtitle = styled.p`
   left: 0;
   width: 100%;
   text-align: center;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1.1rem;
-  font-style: italic;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.6);
   z-index: 2;
+  letter-spacing: -0.01em;
 `;
 
 const PerfumeInfo = styled.div`
@@ -185,22 +190,22 @@ const PerfumeInfo = styled.div`
 `;
 
 const PerfumeName = styled.h2`
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 2.8rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #000;
   margin-bottom: 1.5rem;
-  letter-spacing: 1px;
+  letter-spacing: -0.03em;
   line-height: 1.2;
 `;
 
 const PerfumeSubtitle = styled.h3`
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1.3rem;
   font-weight: 300;
-  font-style: italic;
   color: rgba(0, 0, 0, 0.6);
   margin-bottom: 2.5rem;
+  letter-spacing: -0.01em;
 `;
 
 const PerfumeStory = styled.p`
@@ -209,7 +214,7 @@ const PerfumeStory = styled.p`
   color: #333;
   opacity: 0.9;
   margin-bottom: 2.5rem;
-  white-space: pre-line;
+  white-space: normal;
 `;
 
 const PerfumePrice = styled.div`
@@ -300,23 +305,24 @@ const Button = styled(Link)`
 const DerivativesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 3rem;
+  gap: 1.5rem;
   margin: 4rem auto;
   width: 100%;
+  max-width: 1200px;
 
   @media (max-width: 1400px) {
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   @media (max-width: 1100px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
   }
 `;
 
@@ -329,7 +335,6 @@ const DerivativeCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   height: 100%;
   border-radius: 4px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
@@ -348,33 +353,37 @@ const DerivativeImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #111;
+  padding: 1rem;
+  box-sizing: border-box;
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    transition: transform 0.8s ease;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.5s ease;
   }
 
   ${DerivativeCard}:hover & img {
-    transform: scale(1.08);
+    transform: scale(1.05);
   }
 `;
 
 const DerivativeInfo = styled.div`
-  padding: 2rem;
+  padding: 1.2rem;
   width: 100%;
   text-align: center;
+  background-color: #111;
 
   h4 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 400;
     color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.7);
   }
 `;
@@ -383,27 +392,32 @@ const DerivativeInfo = styled.div`
 const RecommendationsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  margin-top: 4rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 4rem auto;
+  width: 100%;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 `;
 
 const RecommendationCard = styled.div`
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
 
   &:after {
     content: "";
@@ -432,32 +446,19 @@ const RecommendationImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f5f5f5;
+  padding: 0;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: center;
     transition: transform 0.8s ease;
   }
 
   ${RecommendationCard}:hover & img {
-    transform: scale(1.08);
-  }
-
-  /* Adjust specific recommendation images */
-  ${RecommendationCard}:nth-child(1) & img {
-    object-position: center center;
-  }
-
-  ${RecommendationCard}:nth-child(2) & img {
-    object-position: center center;
-  }
-
-  ${RecommendationCard}:nth-child(3) & img {
-    object-fit: contain;
-    padding: 10px;
-    object-position: center center;
+    transform: scale(1.05);
   }
 `;
 
@@ -503,88 +504,82 @@ const ScentDetail: React.FC = () => {
     let mockPerfume: Perfume;
 
     if (perfumeId === "2") {
-      // 두 번째 향수 데이터 (To My Memory by the Sea)
+      // 두 번째 향수 데이터 (The Scent She Wore)
       mockPerfume = {
         id: "2",
-        name: "To My Memory by the Sea",
-        subtitle: "그날의 바람은, 튜베로즈처럼 잔잔하게 나를 안아줬어.",
+        name: "The Scent She Wore",
+        subtitle:
+          "And I remember her, not as my mother, but as a woman in love.",
         story:
-          "고요한 해변의 기억. 파도는 밀려오고 잔잔히 사라지듯, 네가 남긴 향이 아직도 맴돌아. 소금기 묻은 바람과 함께 피어나는 튜베로즈 향이 어린 시절의 추억을 끄집어내. 지금은 돌아갈 수 없는 시간, 하지만 향기만은 여전히 선명해.",
+          "She wore the same scent every day. I only saw my mother—never the woman she was. But years later, wearing that perfume myself, I finally understood what she longed for.",
         price: "0.28 ETH",
-        tags: ["추억", "튜베로즈", "고요함", "맑음", "그리움"],
+        tags: ["Nostalgia", "Tuberose", "Maternal", "Longing"],
         creator: "0x831d35Cc6634C0532925a3b844Bc454e4438f22a",
         image: secondImg,
         derivatives: [
           {
             id: "d1",
-            name: "Sea Memory",
-            type: "디퓨저",
-            image:
-              "https://images.unsplash.com/photo-1616604426994-4e95577d5567?q=80&w=1470&auto=format&fit=crop",
+            name: "Maternal Memory",
+            type: "Diffuser",
+            image: diffuserImg,
           },
           {
             id: "d2",
-            name: "Tuberose Bath",
-            type: "비누",
-            image:
-              "https://images.unsplash.com/photo-1602414220083-671f659a7f62?q=80&w=1471&auto=format&fit=crop",
+            name: "Maternal Memory",
+            type: "Soap",
+            image: soapImg,
           },
           {
             id: "d3",
-            name: "Calm Wave",
-            type: "룸스프레이",
-            image:
-              "https://images.unsplash.com/photo-1488381397757-59d6261610f4?q=80&w=1528&auto=format&fit=crop",
+            name: "Maternal Memory",
+            type: "Room Spray",
+            image: roomsprayImg,
           },
           {
             id: "d4",
-            name: "Memory Candle",
-            type: "캔들",
-            image:
-              "https://images.unsplash.com/photo-1574944985070-8afaeb80b7ed?q=80&w=1374&auto=format&fit=crop",
+            name: "Maternal Memory",
+            type: "Candle",
+            image: candleImg,
           },
         ],
       };
     } else if (perfumeId === "4") {
-      // 네 번째 향수 데이터 (To My Untamed Hours)
+      // 네 번째 향수 데이터 (The Scent We Left in the Dirt)
       mockPerfume = {
         id: "4",
-        name: "To My Untamed Hours",
-        subtitle: "숲의 향, 낙엽 위의 발자국, 어딘가를 향했던 나의 발끝.",
+        name: "The Scent We Left in the Dirt",
+        subtitle:
+          "Before we grew up. Before we were husbands. We were wild.\nThere was a time",
         story:
-          "길들여지지 않은 시간 속에서 만난 자유로운 영혼. 젖은 흙냄새와 숲의 그늘이 만들어낸 몽환적 낭만이 공기 중에 흩어진다. 머물지 않았기에 더 강렬했던 시간의 냄새. 아무도 가두지 못한 순간, 향기만이 그 흔적을 기억한다.",
+          "when all we needed was a Jeep, two tents, and a bottle that smelled like smoke and pine. We weren't fathers then—just boys chasing the edge of freedom,",
         price: "0.38 ETH",
-        tags: ["자유", "흙", "숲", "낭만"],
+        tags: ["Freedom", "Earth", "Forest", "Untamed"],
         creator: "0x642d35Cc6634C0532925a3b844Bc454e4438f52d",
         image: fourthImg,
         derivatives: [
           {
             id: "d1",
-            name: "Forest Echo",
-            type: "디퓨저",
-            image:
-              "https://images.unsplash.com/photo-1473773386757-42bbe7288ce4?q=80&w=1470&auto=format&fit=crop",
+            name: "Dirt Memory",
+            type: "Diffuser",
+            image: diffuserImg,
           },
           {
             id: "d2",
-            name: "Wild Soil",
-            type: "비누",
-            image:
-              "https://images.unsplash.com/photo-1614777735430-7b46ca80f2b2?q=80&w=1471&auto=format&fit=crop",
+            name: "Dirt Memory",
+            type: "Soap",
+            image: soapImg,
           },
           {
             id: "d3",
-            name: "Freedom Mist",
-            type: "룸스프레이",
-            image:
-              "https://images.unsplash.com/photo-1569303553252-a173df2a9bf3?q=80&w=1528&auto=format&fit=crop",
+            name: "Dirt Memory",
+            type: "Room Spray",
+            image: roomsprayImg,
           },
           {
             id: "d4",
-            name: "Wanderer's Candle",
-            type: "캔들",
-            image:
-              "https://images.unsplash.com/photo-1557308563-637d4a70cba0?q=80&w=1374&auto=format&fit=crop",
+            name: "Dirt Memory",
+            type: "Candle",
+            image: candleImg,
           },
         ],
       };
@@ -593,83 +588,73 @@ const ScentDetail: React.FC = () => {
       mockPerfume = {
         id: "3",
         name: "To My X",
-        story:
-          "I couldn't let you go, so I sealed you in a scent.\n\n떠난 당신을 보낼 수 없어서, 나는 당신의 흔적을 향기에 담았습니다. 우리가 함께했던 숲속의 기억, 비 내리는 날 당신의 머리카락에서 나던 이끼 향, 그리고 마지막으로 나눈 포옹에서 느꼈던 따뜻함까지. 이 향기가 당신을 놓아주는 마지막 의식이 되길.",
+        story: "I couldn't let you go, so I sealed you in a scent.",
         price: "0.42 ETH",
-        tags: ["숲", "우디", "이끼", "그리움"],
+        tags: ["Forest", "Woody", "Moss", "Heartache"],
         creator: "0x453d35Cc6634C0532925a3b844Bc454e4438f86c",
         image: thirdImg,
         derivatives: [
           {
             id: "d1",
-            name: "Woods Memory",
-            type: "디퓨저",
-            image:
-              "https://images.unsplash.com/photo-1596644462293-d845f3b3cbe8?q=80&w=1470&auto=format&fit=crop",
+            name: "X Memory",
+            type: "Diffuser",
+            image: diffuserImg,
           },
           {
             id: "d2",
-            name: "Moss Bath",
-            type: "비누",
-            image:
-              "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1471&auto=format&fit=crop",
+            name: "X Memory",
+            type: "Soap",
+            image: soapImg,
           },
           {
             id: "d3",
-            name: "Forest Mist",
-            type: "룸스프레이",
-            image:
-              "https://images.unsplash.com/photo-1596522354195-e084f8e8a4b1?q=80&w=1528&auto=format&fit=crop",
+            name: "X Memory",
+            type: "Room Spray",
+            image: roomsprayImg,
           },
           {
             id: "d4",
-            name: "Memory Candle",
-            type: "캔들",
-            image:
-              "https://images.unsplash.com/photo-1603697439787-118bafe50359?q=80&w=1374&auto=format&fit=crop",
+            name: "X Memory",
+            type: "Candle",
+            image: candleImg,
           },
         ],
       };
     } else {
-      // 첫 번째 향수 데이터 (Trace of Her Midnight Aura)
+      // 첫 번째 향수 데이터 (Her Aura Was Not Meant to Stay)
       mockPerfume = {
         id: "1",
-        name: "Trace of Her Midnight Aura",
-        subtitle: "She left no words behind. Only the scent remained.",
+        name: "Her Aura Was Not Meant to Stay",
         story:
-          "She walked beneath the silver moon, wearing a scent that spoke of solitude, defiance, and desire.\nNot a fragrance to be shared, but to be remembered.\nLong after she vanished into the night, the scent lingered— haunting, bold, and unapologetically hers.",
+          "She left that night without closing the door. Only her scent remained on the sheets. You may own this feeling—but you'll never understand it. She lives only in my memory.",
         price: "0.35 ETH",
-        tags: ["Midnight", "Haunting", "Bold"],
+        tags: ["Midnight", "Haunting", "Bold", "Mysterious"],
         creator: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
         image: firstImg,
         derivatives: [
           {
             id: "d1",
-            name: "Midnight Dream",
-            type: "디퓨저",
-            image:
-              "https://images.unsplash.com/photo-1596644462293-d845f3b3cbe8?q=80&w=1470&auto=format&fit=crop",
+            name: "Aura Memory",
+            type: "Diffuser",
+            image: diffuserImg,
           },
           {
             id: "d2",
-            name: "Aura Bath",
-            type: "비누",
-            image:
-              "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1471&auto=format&fit=crop",
+            name: "Aura Memory",
+            type: "Soap",
+            image: soapImg,
           },
           {
             id: "d3",
-            name: "Midnight Mist",
-            type: "룸스프레이",
-            image:
-              "https://images.unsplash.com/photo-1596522354195-e084f8e8a4b1?q=80&w=1528&auto=format&fit=crop",
+            name: "Aura Memory",
+            type: "Room Spray",
+            image: roomsprayImg,
           },
           {
             id: "d4",
-            name: "Moonlight Candle",
-            type: "캔들",
-            image:
-              "https://images.unsplash.com/photo-1603697439787-118bafe50359?q=80&w=1374&auto=format&fit=crop",
+            name: "Aura Memory",
+            type: "Candle",
+            image: candleImg,
           },
         ],
       };
@@ -684,54 +669,48 @@ const ScentDetail: React.FC = () => {
     const perfumeId = id || "1";
 
     if (perfumeId === "2") {
-      // To My Memory by the Sea 향수에 대한 추천
+      // The Scent She Wore 향수에 대한 추천
       return [
         {
           id: "r1",
-          name: "Coastal Breeze",
-          description: "해안가의 시원한 바람과 소금기를 담은 향",
-          image:
-            "https://images.unsplash.com/photo-1533693906097-c8d83a7a1a5b?q=80&w=1470&auto=format&fit=crop",
+          name: "Memoir",
+          description: "A nostalgic floral scent capturing childhood memories",
+          image: f11Img,
         },
         {
           id: "r2",
-          name: "Summer Tuberose",
-          description:
-            "여름날의 달콤한 튜베로즈 향이 밀려오는 파도처럼 퍼져나가는 향수",
-          image:
-            "https://images.unsplash.com/photo-1541090823-259a71e5a652?q=80&w=1528&auto=format&fit=crop",
+          name: "Maternal Embrace",
+          description: "Warm and comforting notes of vanilla and amber",
+          image: f22Img,
         },
         {
           id: "r3",
-          name: "Childhood Memory",
-          description: "어린 시절의 추억이 담긴 포근하고 따스한 향",
-          image:
-            "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?q=80&w=1470&auto=format&fit=crop",
+          name: "Time Capsule",
+          description: "A delicate blend of tuberose and powder notes",
+          image: f33Img,
         },
       ];
     } else if (perfumeId === "4") {
-      // To My Untamed Hours 향수에 대한 추천
+      // The Scent We Left in the Dirt 향수에 대한 추천
       return [
         {
           id: "r1",
           name: "Wild Spirit",
-          description: "자유롭게 헤매는 영혼을 위한 숲의 향기",
-          image:
-            "https://images.unsplash.com/photo-1445543949571-ffc3e0e2f55e?q=80&w=1470&auto=format&fit=crop",
+          description: "A free-spirited woody scent for the adventurous soul",
+          image: f11Img,
         },
         {
           id: "r2",
           name: "Earthy Romance",
-          description: "젖은 흙과 이끼의 내음이 묻어나는 낭만적인 향",
-          image:
-            "https://images.unsplash.com/photo-1467811884194-ae868cd3b74e?q=80&w=1528&auto=format&fit=crop",
+          description: "Notes of wet soil and moss in a romantic blend",
+          image: f22Img,
         },
         {
           id: "r3",
           name: "Wanderlust",
-          description: "떠돌이 영혼의 여정을 담아낸 모험적인 향",
-          image:
-            "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?q=80&w=1470&auto=format&fit=crop",
+          description:
+            "An adventurous scent capturing the journey of a wandering soul",
+          image: f33Img,
         },
       ];
     } else if (perfumeId === "3") {
@@ -740,44 +719,43 @@ const ScentDetail: React.FC = () => {
         {
           id: "r1",
           name: "Forest Whisper",
-          description: "깊은 숲속의 이끼와 나무 껍질이 어우러진 신비로운 향",
-          image:
-            "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=1374&auto=format&fit=crop",
+          description:
+            "A mysterious blend of moss and tree bark from deep forest",
+          image: f11Img,
         },
         {
           id: "r2",
           name: "Rainy Memory",
-          description: "비 내린 후 숲속의 상쾌함을 담은 그리움의 향",
-          image:
-            "https://images.unsplash.com/photo-1569201529241-f96205e2f2c6?q=80&w=1528&auto=format&fit=crop",
+          description:
+            "The fresh scent of forest after rain with notes of longing",
+          image: f22Img,
         },
         {
           id: "r3",
           name: "Emotional Woods",
-          description: "감정의 기억을 나무 향으로 표현한 우디 향수",
-          image:
-            "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?q=80&w=1470&auto=format&fit=crop",
+          description: "A woody fragrance expressing emotional memories",
+          image: f33Img,
         },
       ];
     } else {
-      // Trace of Her Midnight Aura 향수에 대한 추천
+      // Her Aura Was Not Meant to Stay 향수에 대한 추천
       return [
         {
           id: "r1",
           name: "Velvet Orchid",
-          description: "신비로운 심해의 보석처럼 은은하게 빛나는 향",
+          description: "A mysterious scent shimmering like a deep-sea jewel",
           image: f11Img,
         },
         {
           id: "r2",
           name: "Cedar Noir",
-          description: "숲의 깊은 곳에서 느껴지는 차분하고 묵직한 향",
+          description: "A calm and deep woody scent from the forest depths",
           image: f22Img,
         },
         {
           id: "r3",
           name: "Sunset Bloom",
-          description: "붉은 노을처럼 따뜻하고 달콤한 플로럴 향",
+          description: "A warm and sweet floral scent like a red sunset",
           image: f33Img,
         },
       ];
@@ -802,7 +780,7 @@ const ScentDetail: React.FC = () => {
       {/* 향기 상세 정보 섹션 - 흰색 배경 */}
       <Section $bgColor="#ffffff">
         <Container>
-          <SectionTitle>SCENTED EXHIBITION</SectionTitle>
+          <SectionTitle>SCENT PROFILE</SectionTitle>
 
           <PerfumeCard>
             <PerfumeImageWrapper>
@@ -816,7 +794,16 @@ const ScentDetail: React.FC = () => {
               {perfume.subtitle && (
                 <PerfumeSubtitle>{perfume.subtitle}</PerfumeSubtitle>
               )}
-              <PerfumeStory>{perfume.story}</PerfumeStory>
+              <PerfumeStory
+                style={{
+                  fontStyle: "italic",
+                  lineHeight: "1.9",
+                  fontSize: "1.15rem",
+                  color: "#444",
+                }}
+              >
+                {perfume.story}
+              </PerfumeStory>
               <PerfumePrice>{perfume.price}</PerfumePrice>
 
               <TagsContainer>
@@ -835,8 +822,10 @@ const ScentDetail: React.FC = () => {
               </CreatorInfo>
 
               <ButtonContainer>
-                <Button to="#">구매하기</Button>
-                <BackButton to="/scentmarket">돌아가기</BackButton>
+                <Button to="#" style={{ background: "#000", color: "#fff" }}>
+                  Buy Now
+                </Button>
+                <BackButton to="/scentmarket">Back to Market</BackButton>
               </ButtonContainer>
             </PerfumeInfo>
           </PerfumeCard>
@@ -849,11 +838,13 @@ const ScentDetail: React.FC = () => {
         style={{
           backgroundColor: "#000000",
           position: "relative",
-          padding: "8rem 0 10rem 0",
+          padding: "5rem 0 6rem 0",
         }}
       >
-        <Container>
-          <SectionTitle $dark>COLLECTION DERIVATIVES</SectionTitle>
+        <Container style={{ padding: "0 1rem" }}>
+          <SectionTitle $dark style={{ marginBottom: "3rem" }}>
+            COLLECTION DERIVATIVES
+          </SectionTitle>
 
           <DerivativesGrid>
             {perfume.derivatives.map((derivative) => (
@@ -872,8 +863,11 @@ const ScentDetail: React.FC = () => {
       </Section>
 
       {/* 추천 향기 섹션 - 흰색 배경 */}
-      <Section $bgColor="#ffffff" style={{ backgroundColor: "#ffffff" }}>
-        <Container>
+      <Section
+        $bgColor="#ffffff"
+        style={{ backgroundColor: "#ffffff", padding: "6rem 0 8rem 0" }}
+      >
+        <Container style={{ padding: "0 1rem" }}>
           <SectionTitle>YOU MAY ALSO LIKE</SectionTitle>
 
           <RecommendationsGrid>

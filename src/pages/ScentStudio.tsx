@@ -70,6 +70,7 @@ const ChatArea = styled.div`
   }
 `;
 
+
 const ChatMessage = styled(motion.div) <{ $isUser: boolean }>`
   display: flex;
   margin-bottom: 2rem;
@@ -269,6 +270,7 @@ const fadeIn = {
     y: 0,
     transition: { duration: 0.6 },
   },
+
 };
 
 const messageAnimation = {
@@ -378,14 +380,18 @@ const ScentStudio: React.FC = () => {
           <IngredientPanel>
             <PanelTitle>Selected ingredients</PanelTitle>
             <IngredientList>
+
               <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
+
                 No ingredients has been selected yet
               </div>
             </IngredientList>
 
             <PanelTitle>Tags</PanelTitle>
             <MoodTagList>
+
               <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
+
                 No tags has been selected yet
               </div>
             </MoodTagList>
@@ -409,7 +415,9 @@ const ScentStudio: React.FC = () => {
       </StudioContent>
 
       <FooterSection>
+
         <MintButton whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} onClick={() => navigate("/scentimagestudio")}>
+
           Next Step
         </MintButton>
       </FooterSection>

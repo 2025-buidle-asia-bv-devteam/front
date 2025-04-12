@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { usePrivy } from '@privy-io/react-auth';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { usePrivy } from "@privy-io/react-auth";
 import {
   HeaderContainer,
   Logo,
   NavContainer,
   NavLink,
   WalletButton,
-  WalletAddress
-} from '../../styles/Header.styles';
+  WalletAddress,
+} from "../../styles/Header.styles";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,12 +20,14 @@ const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const formatAddress = (address: string) => {
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+    return `${address.substring(0, 6)}...${address.substring(
+      address.length - 4
+    )}`;
   };
 
   return (
