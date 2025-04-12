@@ -73,29 +73,21 @@ const Button = styled(Link)`
 `;
 
 const ScentInfo = styled.div`
-  padding: 2rem;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  color: var(--light);
-  position: relative;
-  z-index: 1;
-  text-align: left;
+  position: absolute;
+  bottom: 30px;         // 카드 하단에서 간격
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: white;
+  text-align: center;
 
   h3 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 0.5rem;
-    letter-spacing: 1px;
-  }
-
-  p {
-    font-size: 1rem;
-    opacity: 0.8;
+    font-size: 2rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   }
 `;
+
 
 const SectionTitle = styled.h2`
   font-size: 2.5rem;
@@ -104,30 +96,21 @@ const SectionTitle = styled.h2`
   margin-bottom: 2rem;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 10rem;
   }
 `;
-
 const ScentShowcase = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 const ScentItem = styled.div`
   position: relative;
-  height: 450px;
+  width: 1000px;            /* 💡 좌우 넓이 확장 */
+  max-width: 1000px;
+  height: 500px;         /* 기존 450px보다 약간 키움 */
   background: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -143,6 +126,7 @@ const ScentItem = styled.div`
     }
   }
 `;
+
 
 const ScentImage = styled.img`
   position: absolute;
@@ -248,42 +232,23 @@ const Home: React.FC = () => {
 
       <HeroWorkSection />
 
-      <Section $bgColor="var(--gallery-bg)">
+      <Section >
         <SectionTitle>STORY GALLERY</SectionTitle>
 
         <ScentShowcase>
           <ScentItem>
             <ScentImage
-              src="/amber_whisper.png"
-              alt="Perfume 1"
+              src="/background.png"
+              alt=" "
             />
             <ScentInfo>
-              <h3>Amber Whisper</h3>
-              <p>Deep & fascinating Amber</p>
+              <h3>Tell Me Your Scent</h3>
+              
             </ScentInfo>
           </ScentItem>
 
-          <ScentItem>
-            <ScentImage
-              src="/velvet_rose.png"
-              alt="Perfume 2"
-            />
-            <ScentInfo>
-              <h3>Velvet Rose</h3>
-              <p>Elegant & Sophisticated Roses</p>
-            </ScentInfo>
-          </ScentItem>
-
-          <ScentItem>
-            <ScentImage
-              src="/ocean_breeze.png"
-              alt="Perfume 3"
-            />
-            <ScentInfo>
-              <h3>Ocean Breeze</h3>
-              <p>Refreshing & Cool Ocean</p>
-            </ScentInfo>
-          </ScentItem>
+          
+          
         </ScentShowcase>
 
         <ButtonContainer>
