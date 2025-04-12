@@ -12,6 +12,8 @@ const ScentDetail = lazy(() => import('./pages/ScentDetail'));
 const ScentStudio = lazy(() => import('./pages/ScentStudio'));
 const ScentImageStudio = lazy(() => import('./pages/ScentImageStudio'));
 const ScentPublish = lazy(() => import('./pages/ScentPublish'));
+const GalleryZone = lazy(() => import('./pages/GalleryZone'));
+const AllScents = lazy(() => import('./pages/AllScents'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const MyStudio = lazy(() => import('./pages/MyStudio'));
 const ScentContest = lazy(() => import('./pages/ScentStadium'));
@@ -42,6 +44,8 @@ const App: React.FC = () => {
             <Route path="/scentimagestudio" element={<ScentImageStudio />} />
             <Route path="/scentpublish" element={<ScentPublish />} />
             <Route path="/marketplace/:id" element={<ScentDetail />} />
+            <Route path="/galleryzone" element={<GalleryZone />} />
+            <Route path="/scents/all" element={<AllScents />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/mystudio" element={<MyStudio />} />
             <Route path="/scentcontest" element={<ScentContest />} />

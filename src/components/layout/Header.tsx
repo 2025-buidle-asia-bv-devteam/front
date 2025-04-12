@@ -37,7 +37,7 @@ const Header: React.FC = () => {
       <NavContainer>
         <NavLink to="/scentstudio" $active={location.pathname === '/scentstudio'}>Scent Studio</NavLink>
         <NavLink to="/scentmarket" $active={location.pathname === '/scentmarket'}>Scent Market</NavLink>
-        <NavLink to="/gallery" $active={location.pathname === '/gallery'}>Gallery Zone</NavLink>
+        <NavLink to="/galleryzone" $active={location.pathname === '/galleryzone'}>Gallery Zone</NavLink>
         <NavLink to="/mystudio" $active={location.pathname === '/mystudio'}>My Studio</NavLink>
         <NavLink to="/scentcontest" $active={location.pathname === '/scentcontest'}>Stadium</NavLink>
 
