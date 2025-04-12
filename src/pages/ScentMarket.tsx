@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
-// import artImg from "../assets/image/art.png";
 import firstImg from "../assets/image/first.png";
 import secondImg from "../assets/image/second.png";
 import thirdImg from "../assets/image/third.png";

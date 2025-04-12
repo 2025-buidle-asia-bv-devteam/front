@@ -11,6 +11,7 @@ import f11Img from "../assets/image/f11.png";
 import f22Img from "../assets/image/f22.png";
 import f33Img from "../assets/image/f33.png";
 
+
 // 향기 데이터 타입 정의
 interface Perfume {
   id: string;
@@ -372,7 +373,6 @@ const DerivativeInfo = styled.div`
     color: #fff;
     margin-bottom: 1rem;
   }
-
   p {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);

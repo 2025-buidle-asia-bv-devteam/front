@@ -1,9 +1,11 @@
-import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import LoadingSpinner from './components/common/LoadingSpinner';
+import React, { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import ScentMarket from "./pages/ScentMarket";
+import ScentDetail from "./pages/ScentDetail";
 
 const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
@@ -45,4 +47,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App; 
+export default App;
