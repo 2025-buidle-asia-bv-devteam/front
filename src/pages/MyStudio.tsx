@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/MyStudio.css';
 import { internalTabs } from '../constants/myPageTabs';
+import f22 from '../assets/image/f22.png';
+import f33 from '../assets/image/f33.png';
+import f11 from '../assets/image/f11.png';
+import first from '../assets/image/first.png';
+import fourth from '../assets/image/fourth.png';
 
 const MyStudio: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('creations');
@@ -9,11 +14,11 @@ const MyStudio: React.FC = () => {
   const [bio, setBio] = useState<string>('');
 
   const perfumes = [
-    { id: 1, title: 'Dawn Whisper', likes: 12, date: '2024-03-01', price: 25, thumbnail: 'https://i.imgur.com/9yG0W18.png', isListed: false, isPrivate: false, isPurchased: false, isFavorite: true },
-    { id: 2, title: 'Velvet Mist', likes: 47, date: '2024-04-01', price: 18, thumbnail: 'https://i.imgur.com/9Zd7zTV.png', isListed: true, isPrivate: false, isPurchased: true, isFavorite: false },
-    { id: 3, title: 'Amber Bloom', likes: 22, date: '2024-03-25', price: 30, thumbnail: 'https://i.imgur.com/F03w0bn.png', isListed: false, isPrivate: true, isPurchased: true, isFavorite: true },
-    { id: 4, title: 'Midnight Fern', likes: 15, date: '2024-04-03', price: 22, thumbnail: 'https://i.imgur.com/LuO3nbh.png', isListed: true, isPrivate: false, isPurchased: false, isFavorite: false },
-    { id: 5, title: 'Citrus Veil', likes: 9, date: '2024-03-18', price: 20, thumbnail: 'https://i.imgur.com/WWv1FVe.png', isListed: false, isPrivate: true, isPurchased: true, isFavorite: false },
+    { id: 1, title: 'Dawn Whisper', likes: 12, date: '2024-03-01', price: 25, thumbnail: f22, isListed: false, isPrivate: false, isPurchased: false, isFavorite: true },
+    { id: 2, title: 'Velvet Mist', likes: 47, date: '2024-04-01', price: 18, thumbnail: f11, isListed: true, isPrivate: false, isPurchased: true, isFavorite: false },
+    { id: 3, title: 'Amber Bloom', likes: 22, date: '2024-03-25', price: 30, thumbnail: f33, isListed: false, isPrivate: true, isPurchased: true, isFavorite: true },
+    { id: 4, title: 'Midnight Fern', likes: 15, date: '2024-04-03', price: 22, thumbnail: first, isListed: true, isPrivate: false, isPurchased: false, isFavorite: false },
+    { id: 5, title: 'Citrus Veil', likes: 9, date: '2024-03-18', price: 20, thumbnail: fourth, isListed: false, isPrivate: true, isPurchased: true, isFavorite: false },
   ];
 
   const getSortedPerfumes = () => {

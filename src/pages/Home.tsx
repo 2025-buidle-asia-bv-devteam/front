@@ -59,7 +59,7 @@ const Button = styled(Link)`
   }
 
   &:hover {
-    background: transparent;
+    background: white;
     color: black;
     &:after {
       transform: scaleX(1);
