@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useStory } from "../context/StoryContext";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const StudioContainer = styled.div`
   width: 100%;
@@ -19,6 +20,10 @@ const HeaderSection = styled.div`
   padding: 2rem 0;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
 `;
 
 const StudioTitle = styled(motion.h1)`
@@ -127,6 +132,16 @@ const MintButton = styled(motion.button)`
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      transform: none;
+      background: transparent;
+      box-shadow: none;
+    }
+  }
 `;
 
 const UploadButton = styled(motion.button)`
@@ -141,6 +156,17 @@ const UploadButton = styled(motion.button)`
   transition: all 0.3s ease;
 `;
 
+const StatusMessage = styled.div<{ $isError?: boolean }>`
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  background-color: ${(props) => props.$isError ? 'rgba(255, 59, 48, 0.1)' : 'rgba(52, 199, 89, 0.1)'};
+  color: ${(props) => props.$isError ? 'rgba(255, 59, 48, 0.8)' : 'rgba(52, 199, 89, 0.8)'};
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -151,13 +177,16 @@ const fadeIn = {
   },
 };
 
-
 const ScentPublish: React.FC = () => {
   const navigate = useNavigate();
   const [scentName, setScentName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  
+  const { registerIPAsset, txLoading, txName, client } = useStory();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -166,25 +195,89 @@ const ScentPublish: React.FC = () => {
     }
   };
 
-  const handleNext = () => {
-    // 여기에 scentName, description, image 등을 서버로 보낼 수도 있음
-    navigate("/");
+  const validateForm = () => {
+    if (!scentName.trim()) {
+      setError("Please enter a name for your scent.");
+      return false;
+    }
+    if (!description.trim()) {
+      setError("Please enter a description for your scent.");
+      return false;
+    }
+    if (!image) {
+      setError("Please upload an image.");
+      return false;
+    }
+    if (!client) {
+      setError("Please connect your wallet.");
+      return false;
+    }
+    return true;
+  };
+
+  const handlePublish = async () => {
+    // Form validation
+    if (!validateForm()) return;
+    
+    setError(null);
+    setIsSuccess(false);
+    
+    try {
+      // Register IP asset
+      if (image) {
+        const result = await registerIPAsset(scentName, description, image);
+        
+        if (result) {
+          setIsSuccess(true);
+          // Redirect to home after 3 seconds
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+        } else {
+          setError("Failed to register IP asset.");
+        }
+      }
+    } catch (err) {
+      console.error("Error during IP registration:", err);
+      setError("An error occurred during registration. Please check the console for details.");
+    }
   };
 
   return (
     <StudioContainer>
       <HeaderSection>
-        <StudioTitle initial="hidden" animate="visible" variants={fadeIn}>
-          Publish Your Scent
-        </StudioTitle>
-        <StudioSubtitle initial="hidden" animate="visible" variants={fadeIn}>
-          Describe your unique fragrance before stepping into the Story World.
-        </StudioSubtitle>
+        <div>
+          <StudioTitle initial="hidden" animate="visible" variants={fadeIn}>
+            Publish Your Scent
+          </StudioTitle>
+          <StudioSubtitle initial="hidden" animate="visible" variants={fadeIn}>
+            Register your scent IP through Story Protocol and store it permanently on the blockchain.
+          </StudioSubtitle>
+        </div>
+        <ConnectButton />
       </HeaderSection>
 
       <StudioContent>
         <InfoSection style={{ flex: 1 }}>
-          <SectionTitle>Scent Details</SectionTitle>
+          <SectionTitle>Scent Information</SectionTitle>
+
+          {txLoading && (
+            <StatusMessage>
+              {txName}... In progress. Please wait.
+            </StatusMessage>
+          )}
+
+          {isSuccess && (
+            <StatusMessage>
+              Successfully registered your scent IP! Redirecting to home page shortly.
+            </StatusMessage>
+          )}
+
+          {error && (
+            <StatusMessage $isError>
+              {error}
+            </StatusMessage>
+          )}
 
           <ImagePanel>
             <PanelTitle>Upload Image</PanelTitle>
@@ -215,7 +308,7 @@ const ScentPublish: React.FC = () => {
             <PanelTitle>Scent Name</PanelTitle>
             <ChatInput
               type="text"
-              placeholder="e.g. Smoky Rose"
+              placeholder="Ex: Smoky Rose"
               value={scentName}
               onChange={(e) => setScentName(e.target.value)}
             />
@@ -224,7 +317,7 @@ const ScentPublish: React.FC = () => {
           <ImagePanel>
             <PanelTitle>Scent Story</PanelTitle>
             <textarea
-              placeholder="Describe the feeling, mood, and story behind this scent..."
+              placeholder="Describe the emotions, mood, and story behind this scent..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               style={{
@@ -244,13 +337,17 @@ const ScentPublish: React.FC = () => {
       </StudioContent>
 
       <FooterSection>
-        <MintButton whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} onClick={handleNext}>
-          Publish
+        <MintButton 
+          whileHover={{ y: -3 }} 
+          whileTap={{ scale: 0.98 }} 
+          onClick={handlePublish}
+          disabled={txLoading}
+        >
+          {txLoading ? "Registering..." : "Register IP"}
         </MintButton>
       </FooterSection>
     </StudioContainer>
   );
 };
-
 
 export default ScentPublish;

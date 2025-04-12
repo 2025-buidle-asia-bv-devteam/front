@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import { PrivyProvider } from '@privy-io/react-auth';
+import Web3Providers from './providers/Web3Providers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,7 +27,9 @@ root.render(
     }}
   >
     <BrowserRouter>
-      <App />
+      <Web3Providers>
+        <App />
+      </Web3Providers>
     </BrowserRouter>
   </PrivyProvider>
 );
