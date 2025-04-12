@@ -10,6 +10,8 @@ const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
 const ScentDetail = lazy(() => import('./pages/ScentDetail'));
 const ScentStudio = lazy(() => import('./pages/ScentStudio'));
+const ScentImageStudio = lazy(() => import('./pages/ScentImageStudio'));
+const ScentPublish = lazy(() => import('./pages/ScentPublish'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const MyStudio = lazy(() => import('./pages/MyStudio'));
 const ScentContest = lazy(() => import('./pages/ScentStadium'));
@@ -37,6 +39,8 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/scentmarket" element={<ScentMarket />} />
             <Route path="/scentstudio" element={<ScentStudio />} />
+            <Route path="/scentimagestudio" element={<ScentImageStudio />} />
+            <Route path="/scentpublish" element={<ScentPublish />} />
             <Route path="/marketplace/:id" element={<ScentDetail />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/mystudio" element={<MyStudio />} />
