@@ -7,6 +7,10 @@ import firstImg from "../assets/image/first.png";
 import secondImg from "../assets/image/second.png";
 import thirdImg from "../assets/image/third.png";
 import fourthImg from "../assets/image/fourth.png";
+import f11Img from "../assets/image/f11.png";
+import f22Img from "../assets/image/f22.png";
+import f33Img from "../assets/image/f33.png";
+
 
 // 향기 데이터 타입 정의
 interface Perfume {
@@ -49,9 +53,14 @@ const Section = styled.section<{ $bgColor?: string }>`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
 `;
 
 const SectionTitle = styled.h1<{ $dark?: boolean }>`
@@ -107,6 +116,9 @@ const ImageContainer = styled.div`
   z-index: 1;
   background-color: #ffffff;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &::after {
     content: "";
@@ -287,9 +299,25 @@ const Button = styled(Link)`
 // 파생 상품 컴포넌트
 const DerivativesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 3rem;
-  margin-top: 4rem;
+  margin: 4rem auto;
+  width: 100%;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
 `;
 
 const DerivativeCard = styled.div`
@@ -298,10 +326,17 @@ const DerivativeCard = styled.div`
   position: relative;
   transition: transform 0.5s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   }
 `;
 
@@ -310,6 +345,9 @@ const DerivativeImage = styled.div`
   aspect-ratio: 1 / 1;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     width: 100%;
@@ -325,17 +363,18 @@ const DerivativeImage = styled.div`
 `;
 
 const DerivativeInfo = styled.div`
-  padding: 1.8rem;
+  padding: 2rem;
+  width: 100%;
+  text-align: center;
 
   h4 {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     color: #fff;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
   }
-
   p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
   }
 `;
@@ -362,6 +401,9 @@ const RecommendationCard = styled.div`
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:after {
     content: "";
@@ -387,6 +429,9 @@ const RecommendationImage = styled.div`
   width: 100%;
   height: 100%;
   z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     width: 100%;
@@ -398,6 +443,21 @@ const RecommendationImage = styled.div`
 
   ${RecommendationCard}:hover & img {
     transform: scale(1.08);
+  }
+
+  /* Adjust specific recommendation images */
+  ${RecommendationCard}:nth-child(1) & img {
+    object-position: center center;
+  }
+
+  ${RecommendationCard}:nth-child(2) & img {
+    object-position: center center;
+  }
+
+  ${RecommendationCard}:nth-child(3) & img {
+    object-fit: contain;
+    padding: 10px;
+    object-position: center center;
   }
 `;
 
@@ -706,22 +766,19 @@ const ScentDetail: React.FC = () => {
           id: "r1",
           name: "Velvet Orchid",
           description: "신비로운 심해의 보석처럼 은은하게 빛나는 향",
-          image:
-            "https://images.unsplash.com/photo-1611414922957-c103be243074?q=80&w=1470&auto=format&fit=crop",
+          image: f11Img,
         },
         {
           id: "r2",
           name: "Cedar Noir",
           description: "숲의 깊은 곳에서 느껴지는 차분하고 묵직한 향",
-          image:
-            "https://images.unsplash.com/photo-1601295865302-67daefa31e24?q=80&w=1374&auto=format&fit=crop",
+          image: f22Img,
         },
         {
           id: "r3",
           name: "Sunset Bloom",
           description: "붉은 노을처럼 따뜻하고 달콤한 플로럴 향",
-          image:
-            "https://images.unsplash.com/photo-1599733594230-8cc02c369cf5?q=80&w=1469&auto=format&fit=crop",
+          image: f33Img,
         },
       ];
     }
@@ -789,7 +846,11 @@ const ScentDetail: React.FC = () => {
       {/* 파생 상품 섹션 - 검정색 배경 */}
       <Section
         $bgColor="#000000"
-        style={{ backgroundColor: "#000000", position: "relative" }}
+        style={{
+          backgroundColor: "#000000",
+          position: "relative",
+          padding: "8rem 0 10rem 0",
+        }}
       >
         <Container>
           <SectionTitle $dark>COLLECTION DERIVATIVES</SectionTitle>

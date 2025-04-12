@@ -12,7 +12,7 @@ export const HeaderContainer = styled.header<{ isScrolled: boolean }>`
   align-items: center;
   padding: 1rem 2rem;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: ${({ isScrolled }) => isScrolled ? 'rgba(5, 5, 5, 0.9)' : 'transparent'};
+  background-color: ${({ isScrolled }) => isScrolled ? 'rgba(5, 5, 5, 0.9)' : 'black'};
   backdrop-filter: ${({ isScrolled }) => isScrolled ? 'blur(10px)' : 'none'};
   box-shadow: ${({ isScrolled }) => isScrolled ? '0 2px 10px rgba(0, 0, 0, 0.1)' : 'none'};
 `;

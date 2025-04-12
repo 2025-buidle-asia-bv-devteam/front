@@ -7,9 +7,9 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 import ScentMarket from "./pages/ScentMarket";
 import ScentDetail from "./pages/ScentDetail";
 
-// 페이지 지연 로딩
 const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
+const ScentDetail = lazy(() => import('./pages/ScentDetail'));
 const ScentStudio = lazy(() => import('./pages/ScentStudio'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const MyStudio = lazy(() => import('./pages/MyStudio'));

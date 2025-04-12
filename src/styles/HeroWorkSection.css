@@ -1,0 +1,182 @@
+.hero-work-section-wrapper {
+  position: relative;
+}
+
+.hero-work-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.8s ease;
+  color: #111;
+  text-align: center;
+
+}
+
+/* .hero-work-section {
+  position: relative;
+  background: linear-gradient(135deg,#ffffff, #f8f8f8, #cac4b8);
+  padding: 2rem;
+  overflow: hidden;
+  height: 1000px;
+}  */
+
+.hero-step-text {
+  font-size: 1.8rem;
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-work-section.scroll-effect {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  transition: background 1s ease-in-out;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-content-inner h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content-inner h2 span {
+  font-weight: bold;
+  color: #8b3e07;
+}
+
+.hero-content-inner h3 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  transition: opacity 1s ease;
+}
+
+.floating-words {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  opacity: 0.7;
+  animation: floatWords 10s ease-in-out infinite;
+  z-index: 9999;
+}
+
+@keyframes floatWords {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.floating-words {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-words span {
+  position: absolute;
+  font-size: 1.2rem;
+  color: black;
+  animation: floatWords 10s infinite ease-in-out;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.floating-words span:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-words span:nth-child(2) { top: 40%; left: 70%; animation-delay: 2s; }
+.floating-words span:nth-child(3) { top: 60%; left: 30%; animation-delay: 1s; }
+.floating-words span:nth-child(4) { top: 15%; left: 80%; animation-delay: 3s; }
+.floating-words span:nth-child(5) { top: 70%; left: 50%; animation-delay: 1.5s; }
+.floating-words span:nth-child(6) { top: 35%; left: 20%; animation-delay: 2.5s; }
+.floating-words span:nth-child(7) { top: 80%; left: 75%; animation-delay: 4s; }
+.floating-words span:nth-child(8) { top: 50%; left: 90%; animation-delay: 2.2s; }
+.floating-words span:nth-child(9) { top: 25%; left: 40%; animation-delay: 0.8s; }
+.floating-words span:nth-child(10) { top: 90%; left: 10%; animation-delay: 0.8s; }
+
+
+@keyframes floatWords {
+  0% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.3;
+  }
+}
+
+.hero-work-section h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 2;
+}
+
+.floating-words.gather span {
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition: top 1.5s ease, left 1.5s ease, transform 1.5s ease;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.word-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.05em;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* step 1: 단어들이 중앙에 모여 있는 상태 */
+.floating-words.gather .word-wrapper {
+  transition: all 1.5s ease;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* step 2: 각 알파벳이 터지듯 흩어짐 */
+.floating-words.explode .letter {
+  animation: disperseLetter 3s ease-out forwards;
+}
+
+@keyframes disperseLetter {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(50vw * var(--x)), calc(50vh * var(--y)));
+    opacity: 0.5;
+  }
+}

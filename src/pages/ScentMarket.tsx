@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
-import artImg from "../assets/image/art.png";
 import firstImg from "../assets/image/first.png";
 import secondImg from "../assets/image/second.png";
 import thirdImg from "../assets/image/third.png";
@@ -236,7 +235,10 @@ const CreatorAddress = styled.span`
 `;
 
 const Button = styled(Link)`
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
   padding: 1rem 3rem;
   background: transparent;
   border: 1px solid #000;
@@ -245,6 +247,7 @@ const Button = styled(Link)`
   letter-spacing: 1px;
   transition: all 0.4s ease;
   text-transform: uppercase;
+  text-decoration: none;
 
   &:hover {
     background: #000;
@@ -306,8 +309,7 @@ const ScentMarket: React.FC = () => {
       {
         id: "3",
         name: "To My X",
-        story:
-          "I couldn't let you go, so I sealed you in a scent.\n\n떠난 당신을 보낼 수 없어서, 나는 당신의 흔적을 향기에 담았습니다. 우리가 함께했던 숲속의 기억, 비 내리는 날 당신의 머리카락에서 나던 이끼 향, 그리고 마지막으로 나눈 포옹에서 느꼈던 따뜻함까지. 이 향기가 당신을 놓아주는 마지막 의식이 되길.",
+        story: "I couldn't let you go, so I sealed you in a scent.",
         price: "0.42 ETH",
         tags: ["숲", "우디", "이끼", "그리움"],
         creator: "0x453d35Cc6634C0532925a3b844Bc454e4438f86c",
