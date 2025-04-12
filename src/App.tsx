@@ -5,9 +5,9 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import LoadingSpinner from './components/common/LoadingSpinner';
 
-// 페이지 지연 로딩
 const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
+const ScentDetail = lazy(() => import('./pages/ScentDetail'));
 const ScentStudio = lazy(() => import('./pages/ScentStudio'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const MyStudio = lazy(() => import('./pages/MyStudio'));
@@ -34,6 +34,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/scentmarket" element={<ScentMarket />} />
             <Route path="/scentstudio" element={<ScentStudio />} />
+            <Route path="/marketplace/:id" element={<ScentDetail />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/mystudio" element={<MyStudio />} />
           </Routes>

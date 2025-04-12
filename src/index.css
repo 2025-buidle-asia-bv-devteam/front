@@ -40,4 +40,5 @@ button {
   --dark: #121212;
   --light: #F5F5F5;
   --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+  --gallery-bg: #c0bdbb;
 } 
