@@ -18,7 +18,7 @@ root.render(
       appearance: {
         theme: 'dark',
         accentColor: '#8A2BE2',
-        logo: '/hero-logo.png'
+        logo: '/logo22.png'
       },
       embeddedWallets: {
         createOnLogin: 'users-without-wallets'

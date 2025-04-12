@@ -4,8 +4,7 @@ import styled from "styled-components";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import LoadingSpinner from "./components/common/LoadingSpinner";
-import ScentMarket from "./pages/ScentMarket";
-import ScentDetail from "./pages/ScentDetail";
+import ScrollToTop from "./components/common/ScrollTop";
 
 const Home = lazy(() => import('./pages/Home'));
 const ScentMarket = lazy(() => import('./pages/ScentMarket'));
@@ -13,6 +12,7 @@ const ScentDetail = lazy(() => import('./pages/ScentDetail'));
 const ScentStudio = lazy(() => import('./pages/ScentStudio'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const MyStudio = lazy(() => import('./pages/MyStudio'));
+const ScentContest = lazy(() => import('./pages/ScentStadium'));
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -29,6 +29,7 @@ const MainContent = styled.main`
 const App: React.FC = () => {
   return (
     <AppContainer>
+      <ScrollToTop />
       <Header />
       <MainContent>
         <Suspense fallback={<LoadingSpinner />}>
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             <Route path="/marketplace/:id" element={<ScentDetail />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/mystudio" element={<MyStudio />} />
+            <Route path="/scentcontest" element={<ScentContest />} />
           </Routes>
         </Suspense>
       </MainContent>

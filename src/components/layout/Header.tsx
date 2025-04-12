@@ -37,7 +37,7 @@ const Header: React.FC = () => {
         <NavLink to="/scentmarket" $active={location.pathname === '/scentmarket'}>Scent Market</NavLink>
         <NavLink to="/gallery" $active={location.pathname === '/gallery'}>Gallery Zone</NavLink>
         <NavLink to="/mystudio" $active={location.pathname === '/mystudio'}>My Studio</NavLink>
-        <NavLink to="/scentdao" $active={location.pathname === '/scentdao'}>Scent DAO</NavLink>
+        <NavLink to="/scentcontest" $active={location.pathname === '/scentcontest'}>Stadium</NavLink>
 
         <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <WalletButton isConnected={authenticated} onClick={authenticated ? logout : login}>

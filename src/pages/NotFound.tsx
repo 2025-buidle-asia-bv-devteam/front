@@ -53,11 +53,11 @@ const HomeButton = styled(Link)`
   transition: all 0.3s ease;
   background: var(--gradient);
   color: white;
-  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+  box-shadow: 0 5px 15px rgba(144, 132, 112, 0.4);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
+    box-shadow: 0 8px 20px rgba(90, 80, 64, 0.6);
   }
 `;
 
@@ -65,11 +65,11 @@ const NotFound: React.FC = () => {
   return (
     <NotFoundContainer>
       <NotFoundTitle>404</NotFoundTitle>
-      <NotFoundSubtitle>페이지를 찾을 수 없습니다</NotFoundSubtitle>
+      <NotFoundSubtitle>Not Found</NotFoundSubtitle>
       <NotFoundText>
-        찾으시는 페이지가 존재하지 않거나, 이동되었거나, 삭제되었을 수 있습니다.
+        The page may not exist, have been moved, or have been deleted.
       </NotFoundText>
-      <HomeButton to="/">홈으로 돌아가기</HomeButton>
+      <HomeButton to="/">Go Home</HomeButton>
     </NotFoundContainer>
   );
 };
