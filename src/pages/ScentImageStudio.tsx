@@ -77,6 +77,7 @@ const ChatMessage = styled(motion.div) <{ $isUser: boolean }>`
   width: 100%;
 `;
 
+
 const InputArea = styled.div`
   display: flex;
   margin-top: 1rem;
@@ -280,11 +281,11 @@ const messageAnimation = {
   },
 };
 
-const ScentStudio: React.FC = () => {
+const ScentImageStudio: React.FC = () => {
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [input, setInput] = useState("");
   const navigate = useNavigate();
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<
     { text: string; isUser: boolean }[]
   >([]);
@@ -298,7 +299,7 @@ const ScentStudio: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:3000/chat", {
+      const res = await axios.post("http://localhost:3000/generate", {
         message: input,
       });
 
@@ -331,7 +332,7 @@ const ScentStudio: React.FC = () => {
     <StudioContainer>
       <HeaderSection>
         <StudioTitle initial="hidden" animate="visible" variants={fadeIn}>
-          Ready to be a Perfumer?
+          Now it's time to visualize your scent as an image!
         </StudioTitle>
         <StudioSubtitle initial="hidden" animate="visible" variants={fadeIn}>
           Let's deep-dive into the Scentaverse!
@@ -340,7 +341,7 @@ const ScentStudio: React.FC = () => {
 
       <StudioContent>
         <ChatSection>
-          <SectionTitle>Blend anything you want</SectionTitle>
+          <SectionTitle>Reveal your story</SectionTitle>
 
           <ChatArea ref={chatAreaRef}>
             {messages.map((msg, index) => (
@@ -359,7 +360,7 @@ const ScentStudio: React.FC = () => {
           <InputArea>
             <ChatInput
               type="text"
-              placeholder="ex) Want some cooool scent such as mixing smoky and woody aroma"
+              placeholder="ex) Draw an image of the scent that Web3 become great again"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -409,7 +410,7 @@ const ScentStudio: React.FC = () => {
       </StudioContent>
 
       <FooterSection>
-        <MintButton whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} onClick={() => navigate("/scentimagestudio")}>
+        <MintButton whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} onClick={() => navigate("/scentpublish")}>
           Next Step
         </MintButton>
       </FooterSection>
@@ -417,4 +418,4 @@ const ScentStudio: React.FC = () => {
   );
 };
 
-export default ScentStudio;
+export default ScentImageStudio;

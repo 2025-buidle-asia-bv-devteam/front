@@ -23,7 +23,6 @@ const mockData = [
     scentName: '플로럴 무스크',
     image: '/images/profile3.png',
   },
-  // 나머지 순위
   {
     rank: 4,
     name: '향연구가 D',
@@ -49,19 +48,14 @@ const ScentStadium: React.FC = () => {
       <div className="podium">
         {podium.map((item) => (
           <div key={item.rank} className={`podium-slot rank-${item.rank}`}>
-            <div className="line-height" />
-            <div className="profile-pic">
-              <img src={item.image} alt={`${item.name}`} />
+            <div className="profile-img-container">
+              <img src={item.image} alt={item.name} className="profile-img" />
+              <div className="creator-name">{item.name}</div>
             </div>
-            <div className="creator-info">
-              <strong>{item.name}</strong>
-              <div className="scent-name">{item.scentName}</div>
-              <div className="rank-number">{item.rank}등</div>
-            </div>
+            <div className="step-box">{item.rank}</div>
           </div>
         ))}
       </div>
-
 
       <table className="ranking-table">
         <thead>

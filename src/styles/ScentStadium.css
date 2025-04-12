@@ -23,53 +23,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
-.line-height {
-  width: 4px;
-  background-color: #333;
+.profile-img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.rank-1 .line-height {
-  height: 120px;
-}
-
-.rank-2 .line-height {
-  height: 90px;
-}
-
-.rank-3 .line-height {
-  height: 60px;
-}
-
-.profile-pic img {
+.profile-img {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 2px solid #ccc;
   object-fit: cover;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
-.creator-info {
+.creator-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
   text-align: center;
 }
 
-.creator-info strong {
-  display: block;
-}
-
-.creator-info .scent-name {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.creator-info .rank-number {
-  font-size: 1rem;
+.step-box {
+  width: 60px;
+  background-color: #444;
+  color: white;
   font-weight: bold;
-  margin-top: 0.3rem;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 1.5;
+  border-radius: 6px 6px 0 0;
+}
+
+/* podium 높이 차이 */
+.rank-1 .step-box {
+  height: 80px;
+}
+
+.rank-2 .step-box {
+  height: 60px;
+}
+
+.rank-3 .step-box {
+  height: 40px;
 }
 
 .ranking-table {
