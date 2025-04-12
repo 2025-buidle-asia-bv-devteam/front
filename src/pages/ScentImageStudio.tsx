@@ -281,6 +281,41 @@ const messageAnimation = {
   },
 };
 
+const ImagePreviewContainer = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const GeneratedImage = styled.img`
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+`;
+
+const DownloadButton = styled(motion.button)`
+  padding: 0.8rem 1.5rem;
+  background: rgba(146, 132, 122, 0.2);
+  border: 1px solid rgba(146, 132, 122, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(146, 132, 122, 0.3);
+    transform: translateY(-2px);
+  }
+`;
+
 const ScentImageStudio: React.FC = () => {
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -289,6 +324,29 @@ const ScentImageStudio: React.FC = () => {
   const [messages, setMessages] = useState<
     { text: string; isUser: boolean }[]
   >([]);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState<string | null>(null);
+
+  const downloadImage = async () => {
+    if (!generatedImage) return;
+    
+    try {
+      // 새 창에서 이미지 열기
+      const newWindow = window.open(generatedImage, '_blank');
+      
+      // 사용자에게 안내 메시지 표시
+      if (newWindow) {
+        setTimeout(() => {
+          alert('The image has been opened in a new tab. Right-click on the image and select "Save Image As" to download it.');
+        }, 1000);
+      } else {
+        alert('Pop-up blocked. Please enable pop-ups and try again.');
+      }
+    } catch (error) {
+      console.error("이미지 다운로드 중 오류 발생:", error);
+      alert("Failed to download the image. Please try again.");
+    }
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -297,19 +355,32 @@ const ScentImageStudio: React.FC = () => {
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
+    setGeneratedImage(null);
 
     try {
       const res = await axios.post("http://localhost:3000/generate", {
-        message: input,
+        input_text: input,
       });
 
-      const agentReply = res.data.message || "No response from agent.";
+      console.log("백엔드 응답:", res.data);
 
-      setMessages([...newMessages, { text: agentReply, isUser: false }]);
+      // 프롬프트 저장
+      if (res.data.prompt) {
+        setPrompt(res.data.prompt);
+        setMessages([...newMessages, { text: res.data.prompt, isUser: false }]);
+      } else {
+        setMessages([...newMessages, { text: "이미지가 생성되었습니다.", isUser: false }]);
+      }
+
+      // 이미지 URL 저장
+      if (res.data.image_url) {
+        setGeneratedImage(res.data.image_url);
+      }
     } catch (error) {
+      console.error("API 호출 에러:", error);
       setMessages([
         ...newMessages,
-        { text: "⚠️ Failed to connect to agent.", isUser: false },
+        { text: "⚠️ 이미지 생성에 실패했습니다.", isUser: false },
       ]);
     } finally {
       setIsLoading(false);
@@ -355,12 +426,28 @@ const ScentImageStudio: React.FC = () => {
                 <div>{msg.text}</div>
               </ChatMessage>
             ))}
+            
+            {generatedImage && (
+              <ImagePreviewContainer>
+                <GeneratedImage 
+                  src={generatedImage} 
+                  alt="Generated Scent Image" 
+                />
+                <DownloadButton
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={downloadImage}
+                >
+                  Download Image
+                </DownloadButton>
+              </ImagePreviewContainer>
+            )}
           </ChatArea>
 
           <InputArea>
             <ChatInput
               type="text"
-              placeholder="ex) Draw an image of the scent that Web3 become great again"
+              placeholder="ex) Designed for the lover of both smoky and woody aromas."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -374,27 +461,50 @@ const ScentImageStudio: React.FC = () => {
         </ChatSection>
 
         <InfoSection>
-          <SectionTitle>Perfume ingredients</SectionTitle>
+          <SectionTitle>Generated Image</SectionTitle>
 
           <IngredientPanel>
-            <PanelTitle>Selected ingredients</PanelTitle>
-            <IngredientList>
-              <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
-                No ingredients has been selected yet
-              </div>
-            </IngredientList>
-
-            <PanelTitle>Tags</PanelTitle>
-            <MoodTagList>
-              <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
-                No tags has been selected yet
-              </div>
-            </MoodTagList>
+            {generatedImage ? (
+              <>
+                <PanelTitle>Your Scent Image</PanelTitle>
+                <div style={{ width: '100%', textAlign: 'center' }}>
+                  <GeneratedImage 
+                    src={generatedImage} 
+                    alt="Generated Scent Image" 
+                    style={{ maxHeight: '400px' }}
+                  />
+                  
+                  <DownloadButton
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={downloadImage}
+                  >
+                    Download Image
+                  </DownloadButton>
+                </div>
+                
+                {prompt && (
+                  <>
+                    <PanelTitle style={{ marginTop: '2rem' }}>Prompt</PanelTitle>
+                    <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem", lineHeight: '1.5' }}>
+                      {prompt}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <PanelTitle>Waiting for your input</PanelTitle>
+                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
+                  Enter a description to generate an image for your scent
+                </div>
+              </>
+            )}
 
             {isLoading && (
               <StatusIndicator>
                 <Pulse />
-                <span>Blending...</span>
+                <span>Generating image...</span>
               </StatusIndicator>
             )}
 

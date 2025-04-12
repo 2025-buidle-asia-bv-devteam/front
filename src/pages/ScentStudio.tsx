@@ -290,6 +290,7 @@ const ScentStudio: React.FC = () => {
   const [messages, setMessages] = useState<
     { text: string; isUser: boolean }[]
   >([]);
+  const [recipeData, setRecipeData] = useState<any>(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -304,10 +305,29 @@ const ScentStudio: React.FC = () => {
         message: input,
       });
 
-      const agentReply = res.data.message || "No response from agent.";
+      console.log("백엔드 응답:", res.data); // 응답 로깅
+
+      // 설명 텍스트 (대화창에 표시할 내용)
+      let agentReply = "No response from agent.";
+      
+      if (res.data.structured_data && res.data.structured_data.description) {
+        agentReply = res.data.structured_data.description;
+      } else if (res.data.full_reply) {
+        agentReply = res.data.full_reply;
+      }
+
+      // 레시피 데이터 저장 (정보 패널에 표시할 내용)
+      const recipeInfo = {
+        ...(res.data.recipe || {}),
+        ...(res.data.structured_data || {}),
+        manufacturing_guide: res.data.structured_data?.manufacturing_guide || res.data.manufacturing_guide
+      };
+      
+      setRecipeData(recipeInfo);
 
       setMessages([...newMessages, { text: agentReply, isUser: false }]);
     } catch (error) {
+      console.error("API 호출 에러:", error);
       setMessages([
         ...newMessages,
         { text: "⚠️ Failed to connect to agent.", isUser: false },
@@ -380,20 +400,66 @@ const ScentStudio: React.FC = () => {
           <IngredientPanel>
             <PanelTitle>Selected ingredients</PanelTitle>
             <IngredientList>
-
-              <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
-
-                No ingredients has been selected yet
-              </div>
+              {recipeData ? (
+                <>
+                  {recipeData.top_note && (
+                    <div style={{ width: '100%', marginBottom: '0.5rem' }}>
+                      <div style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem" }}>
+                        Top: {recipeData.top_note.name} ({recipeData.top_note.ratio}%)
+                      </div>
+                      <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem" }}>
+                        {recipeData.top_note.description}
+                      </div>
+                    </div>
+                  )}
+                  {recipeData.middle_note && (
+                    <div style={{ width: '100%', marginBottom: '0.5rem' }}>
+                      <div style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem" }}>
+                        Middle: {recipeData.middle_note.name} ({recipeData.middle_note.ratio}%)
+                      </div>
+                      <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem" }}>
+                        {recipeData.middle_note.description}
+                      </div>
+                    </div>
+                  )}
+                  {recipeData.base_note && (
+                    <div style={{ width: '100%', marginBottom: '0.5rem' }}>
+                      <div style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem" }}>
+                        Base: {recipeData.base_note.name} ({recipeData.base_note.ratio}%)
+                      </div>
+                      <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem" }}>
+                        {recipeData.base_note.description}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
+                  No ingredients has been selected yet
+                </div>
+              )}
             </IngredientList>
 
-            <PanelTitle>Tags</PanelTitle>
+            <PanelTitle>Manufacturing Guide</PanelTitle>
             <MoodTagList>
-
-              <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
-
-                No tags has been selected yet
-              </div>
+              {recipeData && recipeData.manufacturing_guide ? (
+                <div style={{ width: '100%' }}>
+                  <div style={{ color: "rgba(255,255,255,0.8)", marginBottom: '0.5rem' }}>
+                    Ethanol: {recipeData.manufacturing_guide.ethanol}%, Water: {recipeData.manufacturing_guide.water}%
+                  </div>
+                  <div>
+                    {recipeData.manufacturing_guide.steps && recipeData.manufacturing_guide.steps.map((step: string, index: number) => (
+                      <div key={index} style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem", marginBottom: '0.3rem' }}>
+                        {index + 1}. {step}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.9rem" }}>
+                  No tags has been selected yet
+                </div>
+              )}
             </MoodTagList>
 
             {isLoading && (
