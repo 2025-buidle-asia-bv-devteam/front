@@ -1,3 +1,9 @@
+## 3rd Prize
+| Period            | Category   | Activity                                       | Description                                                   |
+|-------------------|------------|------------------------------------------------|----------------------------------------------------------------|
+| 2025.04           | Hackathon  | BuidlAI Hack 2025             | 3rd prize on Story track |
+
+
 # 🌟 FragranceForge AI
 
 ![FragranceForge Banner](https://github.com/user-attachments/assets/2c812955-e7f4-496f-9e81-bc1b2b516320)
